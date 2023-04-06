@@ -9,6 +9,7 @@ const UserSchema = new Schema({
 
   email: {
     type: String,
+    unique: true,
     required: true,
   },
 
@@ -18,8 +19,23 @@ const UserSchema = new Schema({
   },
 
   isFavourite: {},
+
+  billingAddress: {},
+
+  shippingAddress: {},
 });
 
 const User = mongoose.model("user", UserSchema);
 
 module.exports = User;
+//  {
+//   firstName: "",
+//   lastName: "",
+//   companyName: "",
+//   country: "",
+//   street: "",
+//   town: "",
+//   state: "",
+//   zipCode: "",
+//   phone: "",
+// },

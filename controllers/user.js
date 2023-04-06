@@ -164,6 +164,38 @@ const updateUser = async (req, res) => {
   }
 };
 
+const updateBillingAddress = async (req, res) => {
+  const email = req.params.email;
+  const user = await User.findOne({ email: email });
+  const password = user.password;
+
+  const updateBillingAddress = {
+    userName: req.body.userName,
+    email: req.body.email,
+    password: password,
+    isFavourite: req.body.isFavourite,
+    billingAddress: req.body.billingAddress,
+  };
+
+  try {
+    const response = await User.findOneAndUpdate(
+      { email: email },
+      updateBillingAddress
+    );
+    if (response) {
+      return res
+        .status(200)
+        .send({ message: "Successfully updated User Details" });
+    } else {
+      return res.status(500).send({ message: "Internal server error" });
+    }
+  } catch (err) {
+    return res
+      .status(400)
+      .send({ message: "Unable to update recheck your email" });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -171,4 +203,5 @@ module.exports = {
   getOneUser,
   updateUserPassword,
   updateUser,
+  updateBillingAddress,
 };

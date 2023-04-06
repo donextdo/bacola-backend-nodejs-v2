@@ -1,8 +1,10 @@
-const express = require("express");
+"use strict";
 
-const router = express.Router();
+var express = require("express");
 
-let userController = require("../controllers/user");
+var router = express.Router();
+
+var userController = require("../controllers/user");
 
 router.post("/register", userController.register);
 router.post("/login", userController.login);
@@ -11,5 +13,5 @@ router.get("/:email", userController.getOneUser);
 router.put("/:email/:pwd", userController.updateUserPassword);
 router.put("/:email", userController.updateUser);
 router.put("/billingAddress/:email", userController.updateBillingAddress);
-
 module.exports = router;
+//# sourceMappingURL=user.dev.js.map
