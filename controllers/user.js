@@ -9,6 +9,12 @@ const register = async (req, res) => {
   const email = req.body.email;
   const pwd = req.body.password;
   const isFavourite = req.body.isFavourite;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const companyName = req.body.companyName;
+  const billingAddress = req.body.billingAddress;
+  const shippingAddress = req.body.shippingAddress;
+  const phone = req.body.phone;
 
   const salt = bcrypt.genSaltSync(10);
   const password = bcrypt.hashSync(pwd, salt);
@@ -18,6 +24,12 @@ const register = async (req, res) => {
     email,
     password,
     isFavourite,
+    firstName,
+    lastName,
+    companyName,
+    billingAddress,
+    shippingAddress,
+    phone,
   });
 
   try {
@@ -146,42 +158,16 @@ const updateUser = async (req, res) => {
     email: req.body.email,
     password: password,
     isFavourite: req.body.isFavourite,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    companyName: req.body.companyName,
+    billingAddress: req.body.billingAddress,
+    phone: req.body.phone,
+    shippingAddress: req.body.shippingAddress,
   };
 
   try {
     const response = await User.findOneAndUpdate({ email: email }, updateUser);
-    if (response) {
-      return res
-        .status(200)
-        .send({ message: "Successfully updated User Details" });
-    } else {
-      return res.status(500).send({ message: "Internal server error" });
-    }
-  } catch (err) {
-    return res
-      .status(400)
-      .send({ message: "Unable to update recheck your email" });
-  }
-};
-
-const updateBillingAddress = async (req, res) => {
-  const email = req.params.email;
-  const user = await User.findOne({ email: email });
-  const password = user.password;
-
-  const updateBillingAddress = {
-    userName: req.body.userName,
-    email: req.body.email,
-    password: password,
-    isFavourite: req.body.isFavourite,
-    billingAddress: req.body.billingAddress,
-  };
-
-  try {
-    const response = await User.findOneAndUpdate(
-      { email: email },
-      updateBillingAddress
-    );
     if (response) {
       return res
         .status(200)
@@ -203,5 +189,4 @@ module.exports = {
   getOneUser,
   updateUserPassword,
   updateUser,
-  updateBillingAddress,
 };

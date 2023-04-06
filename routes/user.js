@@ -10,6 +10,5 @@ router.get("/", userController.getAllUsers);
 router.get("/:email", userController.getOneUser);
 router.put("/:email/:pwd", userController.updateUserPassword);
 router.put("/:email", userController.updateUser);
-router.put("/billingAddress/:email", userController.updateBillingAddress);
 
 module.exports = router;
