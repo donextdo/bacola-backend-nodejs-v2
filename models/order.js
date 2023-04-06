@@ -2,12 +2,19 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const OrderSchema = new Schema({
+
+  orderId:{
+    type: String,
+    required : true,
+    unique : true
+  },
+
   userId: {
     type: String,
     required: true,
   },
 
-  item: [{ itemId: "", quantity: "" }],
+  item:{},
 
   date: {
     type: String,
@@ -15,9 +22,18 @@ const OrderSchema = new Schema({
 
   total: {},
 
-  paymentMethod: {},
-
   status: {},
+
+  createdAt:{
+    type: Date,
+    default: Date.now
+  },
+
+  deletedAt:{
+    type: Date,
+    default:null
+
+  }
 });
 
 const Order = mongoose.model("order", OrderSchema);
