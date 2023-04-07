@@ -15,6 +15,7 @@ const register = async (req, res) => {
   const billingAddress = req.body.billingAddress;
   const shippingAddress = req.body.shippingAddress;
 
+
   const salt = bcrypt.genSaltSync(10);
   const password = bcrypt.hashSync(pwd, salt);
 
@@ -31,7 +32,7 @@ const register = async (req, res) => {
   });
 
   try {
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({email : email});
     if (userExists) {
       res.status(400).send({ message: "User Already Exists" });
     } else {

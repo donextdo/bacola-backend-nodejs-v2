@@ -33,7 +33,7 @@ const UserSchema = new Schema({
   isFavourite: {},
 
   billingAddress: {
-    type: [
+    type: 
       {
         billingFirstName : { type: String, required : false},
         billingLastName : { type: String, required : false},
@@ -47,12 +47,12 @@ const UserSchema = new Schema({
         zipCode: { type: String, required: false },
         billingEmail: { type: String, required: false },
       },
-    ],
+    
     required: false,
   },
 
   shippingAddress: {
-    type: [
+    type: 
       {
         shippingFirstName : { type: String , required: false},
         shippingLastName : { type:String , required: false},
@@ -66,7 +66,7 @@ const UserSchema = new Schema({
         zipCode: { type: String, required: false },
         shippingEmail: { type: String, required: false },
       },
-    ],
+    
     required: false,
   },
 });
