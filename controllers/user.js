@@ -34,7 +34,7 @@ const register = async (req, res) => {
   });
 
   try {
-    const userExists = await User.findOne({ _id });
+    const userExists = await User.findOne({ email });
     if (userExists) {
       res.status(400).send({ message: "User Already Exists" });
     } else {
@@ -58,7 +58,7 @@ const login = async (req, res) => {
   const password = req.body.password;
 
   try {
-    const user = await User.findOne({ _id: req.params.id });
+    const user = await User.findOne({ email });
 
     if (user) {
       if (user && bcrypt.compareSync(password, user.password)) {
@@ -152,7 +152,7 @@ const updateUserPassword = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const email = req.params.id;
-  const user = await User.findOne({ _id: id });
+  const user = await User.findOne({ email : email });
   const password = user.password;
 
   const updateUser = {
