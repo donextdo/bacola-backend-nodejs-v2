@@ -9,12 +9,6 @@ const register = async (req, res) => {
   const email = req.body.email;
   const pwd = req.body.password;
   const isFavourite = req.body.isFavourite;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const companyName = req.body.companyName;
-  const billingAddress = req.body.billingAddress;
-  const shippingAddress = req.body.shippingAddress;
-  const phone = req.body.phone;
 
   const salt = bcrypt.genSaltSync(10);
   const password = bcrypt.hashSync(pwd, salt);
@@ -24,12 +18,6 @@ const register = async (req, res) => {
     email,
     password,
     isFavourite,
-    firstName,
-    lastName,
-    companyName,
-    billingAddress,
-    shippingAddress,
-    phone,
   });
 
   try {
@@ -158,12 +146,6 @@ const updateUser = async (req, res) => {
     email: req.body.email,
     password: password,
     isFavourite: req.body.isFavourite,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    companyName: req.body.companyName,
-    billingAddress: req.body.billingAddress,
-    phone: req.body.phone,
-    shippingAddress: req.body.shippingAddress,
   };
 
   try {
