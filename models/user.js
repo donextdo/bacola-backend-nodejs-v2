@@ -52,6 +52,9 @@ const UserSchema = new Schema({
   shippingAddress: {
     type: [
       {
+        shippingFirst : { type: String , required: true},
+        shippingLast : { type:String , required:true},
+        shippingComName : {type : String , required : false},
         street: { type: String, required: true },
         town: { type: String, required: true },
         state: { type: String, required: true },
