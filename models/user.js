@@ -25,7 +25,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  companyName: {
+  displayName: {
     type: String,
   },
 
@@ -34,6 +34,9 @@ const UserSchema = new Schema({
   billingAddress: {
     type: [
       {
+        billingFirstName : { type: String, required : true},
+        billingLastName : { type: String, required : true},
+        billingCompanyName : { type: String, required : false},
         street: { type: String, required: true },
         town: { type: String, required: true },
         state: { type: String, required: true },
@@ -52,6 +55,9 @@ const UserSchema = new Schema({
   shippingAddress: {
     type: [
       {
+        shippingFirstName : { type: String , required: true},
+        shippingLastName : { type:String , required:true},
+        shippingCompanyName : {type : String , required : false},
         street: { type: String, required: true },
         town: { type: String, required: true },
         state: { type: String, required: true },
