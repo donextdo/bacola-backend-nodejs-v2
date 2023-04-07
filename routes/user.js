@@ -7,8 +7,8 @@ let userController = require("../controllers/user");
 router.post("/register", userController.register);
 router.post("/login", userController.login);
 router.get("/", userController.getAllUsers);
-router.get("/:email", userController.getOneUser);
-router.put("/:email/:pwd", userController.updateUserPassword);
-router.put("/:email", userController.updateUser);
+router.get("/:id", userController.getOneUser);
+router.patch("/:id/:pwd", userController.updateUserPassword);
+router.patch("/:id", userController.updateUser);
 
 module.exports = router;
