@@ -45,7 +45,7 @@ const addProduct = async (req, res) => {
   try {
     let response = await product.save();
     if (response) {
-      return res.status(201).send({ message: "New Product Insered" });
+      return res.status(201).send({ message: "New Product Inserted" });
     } else {
       return res.status(500).send({ message: "Internal server error" });
     }
