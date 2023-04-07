@@ -4,29 +4,30 @@ const { Schema } = mongoose;
 const UserSchema = new Schema({
   userName: {
     type: String,
-    required: true,
+    required: false
   },
 
   email: {
     type: String,
     unique: true,
-    required: true,
+    required: true
   },
 
   password: {
     type: String,
-    required: true,
+    required: true
   },
   firstName: {
     type: String,
-    required: true,
+    required: false
   },
   lastname: {
     type: String,
-    required: true,
+    required: false
   },
   displayName: {
     type: String,
+    required: false
   },
 
   isFavourite: {},
@@ -34,38 +35,38 @@ const UserSchema = new Schema({
   billingAddress: {
     type: [
       {
-        billingFirstName : { type: String, required : true},
-        billingLastName : { type: String, required : true},
+        billingFirstName : { type: String, required : false},
+        billingLastName : { type: String, required : false},
         billingCompanyName : { type: String, required : false},
-        street: { type: String, required: true },
-        town: { type: String, required: true },
-        state: { type: String, required: true },
-        country: { type: String, required: true },
-        zipCode: { type: String, required: true },
+        street: { type: String, required: false },
+        town: { type: String, required: false },
+        state: { type: String, required: false },
+        country: { type: String, required: false },
+        zipCode: { type: String, required: false },
       },
     ],
-    required: true,
+    required: false,
   },
   phone: {
     type: String,
-    required: true,
+    required: false,
     trim: true,
   },
 
   shippingAddress: {
     type: [
       {
-        shippingFirstName : { type: String , required: true},
-        shippingLastName : { type:String , required:true},
+        shippingFirstName : { type: String , required: false},
+        shippingLastName : { type:String , required: false},
         shippingCompanyName : {type : String , required : false},
-        street: { type: String, required: true },
-        town: { type: String, required: true },
-        state: { type: String, required: true },
-        country: { type: String, required: true },
-        zipCode: { type: String, required: true },
+        street: { type: String, required: false},
+        town: { type: String, required: false },
+        state: { type: String, required: false },
+        country: { type: String, required: false },
+        zipCode: { type: String, required: false },
       },
     ],
-    required: true,
+    required: false,
   },
 });
 
