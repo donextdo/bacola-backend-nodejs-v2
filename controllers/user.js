@@ -5,7 +5,6 @@ const auth = require("../middlewares/jwt");
 
 //register new user
 const register = async (req, res) => {
-  const id = req.params.id;
   const userName = req.body.userName;
   const email = req.body.email;
   const pwd = req.body.password;
@@ -15,7 +14,6 @@ const register = async (req, res) => {
   const companyName = req.body.companyName;
   const billingAddress = req.body.billingAddress;
   const shippingAddress = req.body.shippingAddress;
-  const phone = req.body.phone;
 
   const salt = bcrypt.genSaltSync(10);
   const password = bcrypt.hashSync(pwd, salt);
@@ -29,8 +27,7 @@ const register = async (req, res) => {
     lastName,
     companyName,
     billingAddress,
-    shippingAddress,
-    phone,
+    shippingAddress
   });
 
   try {
@@ -54,7 +51,6 @@ const register = async (req, res) => {
 //login user
 const login = async (req, res) => {
   const email = req.body.email;
-  const id = req.params.id;
   const password = req.body.password;
 
   try {
@@ -165,7 +161,6 @@ const updateUser = async (req, res) => {
     lastName: req.body.lastName,
     displayName: req.body.displayName,
     billingAddress: req.body.billingAddress,
-    phone: req.body.phone,
     shippingAddress: req.body.shippingAddress,
   };
 
