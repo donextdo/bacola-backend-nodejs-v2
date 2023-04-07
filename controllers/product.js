@@ -110,16 +110,11 @@ const updateProduct = async (req, res) => {
     discount: req.body.discount,
     review: req.body.review,
     updatedAt: new Date(),
-    //isFavourite: req.body.isFavourite,
   };
 
   try {
     const response = await Product.findOneAndUpdate({ _id: Id }, productUpdate);
-    //const record = await Product.findById(Id);
-    // if (record) {
-    //   record.updatedAt = new Date();
-    //   return await record.save();
-    // }
+    
     if (response) {
       return res.status(200).send({ message: "Successfully updated Product " });
     } else {
