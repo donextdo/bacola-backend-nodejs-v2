@@ -1,5 +1,5 @@
 const { request } = require("express");
-const ReviewCollection = require("../models/review");
+const Review = require("../models/review");
 
 const addReview = async (req, res) => {
   const productId = req.body.productId;
@@ -14,7 +14,7 @@ const addReview = async (req, res) => {
   const reviewStatus = req.body.reviewStatus;
   const isHelpfulFeedback = req.body.isHelpfulFeedback;
 
-  const review = new ReviewCollection({
+  const review = new Review({
     productId,
     userId,
     rating,
@@ -41,7 +41,7 @@ const addReview = async (req, res) => {
 
 const getAllReview = async (req, res) => {
   try {
-    let reviews = await ReviewCollection.find();
+    let reviews = await Review.find();
     if (reviews) {
       return res.json(reviews);
     } else {
@@ -57,7 +57,7 @@ const getAllReview = async (req, res) => {
 const getReviewById = async (req, res) => {
   const product = req.params.id;
   try {
-    let response = await ReviewCollection.findById(product);
+    let response = await Review.findById(product);
 
     if (response) {
       return res.json(response);
@@ -73,7 +73,7 @@ const getOneReviewByProductId = async (req, res) => {
   const productId = req.params.productId;
 
   try {
-    let review = await ReviewCollection.find({
+    let review = await Review.find({
       productId: productId,
     });
     if (review) {
@@ -90,7 +90,7 @@ const getRating = async (req, res) => {
   const productId = req.params.productId;
 
   try {
-    let review = await ReviewCollection.find({
+    let review = await Review.find({
       productId: productId,
     });
 
@@ -109,7 +109,7 @@ const getRating = async (req, res) => {
 const updateReviews = async (req, res) => {
   const reviewId = req.params.id;
 
-  const reviews = await ReviewCollection.findOne({ _id: reviewId });
+  const reviews = await Review.findOne({ _id: reviewId });
 
   let reviewUpdate = {
     Id: reviewId,
@@ -125,7 +125,7 @@ const updateReviews = async (req, res) => {
     isHelpfulFeedback: req.body.isHelpfulFeedback,
   };
   try {
-    const response = await ReviewCollection.findOneAndUpdate(
+    const response = await Review.findOneAndUpdate(
       { _id: reviewId },
       reviewUpdate
     );

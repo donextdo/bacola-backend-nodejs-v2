@@ -46,3 +46,6 @@ app.use("/api/orders", order);
 
 let review = require("./routes/review");
 app.use("/api/reviews", review);
+
+let favourite = require("./routes/favourite");
+app.use("/api/favourites", favourite);
