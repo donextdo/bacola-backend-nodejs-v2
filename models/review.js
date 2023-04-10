@@ -32,8 +32,7 @@ const ReviewCollection = new Schema({
     type: Boolean,
     required: true,
   },
-  images: [String],
-  videos: [String],
+  imagesOrVideos: [String],
   reviewStatus: {
     type: String,
     enum: ["pending", "approved", "rejected"],
@@ -48,3 +47,6 @@ const ReviewCollection = new Schema({
 const Reviews = mongoose.model("review", ReviewCollection);
 
 module.exports = Reviews;
+
+// product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+// user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

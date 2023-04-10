@@ -6,7 +6,7 @@ const app = express();
 const unless = require("express-unless");
 const auth = require("./middlewares/jwt");
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 const URL = process.env.MONGO_URI;
 
 app.use(express.urlencoded({ extended: false }));
@@ -42,4 +42,7 @@ let product = require("./routes/product");
 app.use("/api/products", product);
 
 let order = require("./routes/order");
-app.use("/api/orders",order)
+app.use("/api/orders", order);
+
+let review = require("./routes/review");
+app.use("/api/reviews", review);
