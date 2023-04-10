@@ -66,14 +66,3 @@ const UserSchema = new Schema({
 const User = mongoose.model("user", UserSchema);
 
 module.exports = User;
-//  {
-//   firstName: "",
-//   lastName: "",
-//   companyName: "",
-//   country: "",
-//   street: "",
-//   town: "",
-//   state: "",
-//   zipCode: "",
-//   phone: "",
-// },
