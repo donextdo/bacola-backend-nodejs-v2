@@ -40,3 +40,6 @@ app.use("/api/users", userAuth);
 
 let product = require("./routes/product");
 app.use("/api/products", product);
+
+let order = require("./routes/order");
+app.use("/api/orders",order)
