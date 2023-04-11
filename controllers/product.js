@@ -1,4 +1,4 @@
-const Product = require("../models/product");
+const { Product } = require("../models/product");
 const { request } = require("express");
 
 //insert product
@@ -92,10 +92,11 @@ const getProductById = async (req, res) => {
 //update product by id
 const updateProduct = async (req, res) => {
   const Id = req.params.id;
+  const product = await Product.findById({ _id: Id });
 
   let productUpdate = {
     Id: Id,
-    title: req.body.title,
+    title: product.title,
     brand: req.body.brand,
     description: req.body.description,
     image: req.body.image,
@@ -121,6 +122,7 @@ const updateProduct = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
+    console.log("errror", err);
     return res.status(400).send({ message: "Unable to update" });
   }
 };

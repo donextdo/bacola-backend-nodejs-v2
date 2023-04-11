@@ -49,3 +49,6 @@ app.use("/api/reviews", review);
 
 let favourite = require("./routes/favourite");
 app.use("/api/favourites", favourite);
+
+let category = require("./routes/category ");
+app.use("/api/categories", category);
