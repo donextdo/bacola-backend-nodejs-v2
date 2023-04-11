@@ -7,7 +7,40 @@ async function insertCategory(name, parentId) {
       name: name,
       parent: parentId,
     });
+
     const savedCategory = await category.save();
+    if (savedCategory) {
+      const product = await Product.findById(parentId);
+
+      if (product) {
+        const categoryIds = product.category;
+        categoryIds.push(savedCategory._id); // add new category id to the category array
+
+        const productUpdate = {
+          ...product._doc,
+          category: categoryIds, // replace the category array with updated categoryIds
+          updatedAt: new Date(),
+        };
+
+        try {
+          const response = await Product.updateOne(
+            { _id: parentId },
+            productUpdate
+          );
+
+          if (response) {
+            return { message: "Successfully updated Product" };
+          } else {
+            return { error: "Internal server error" };
+          }
+        } catch (err) {
+          console.log("errror", err);
+          return { error: "Unable to update" };
+        }
+      } else {
+        return { error: "Product not found" };
+      }
+    }
     console.log(`Created category: ${savedCategory.name}`);
     return savedCategory;
   } catch (error) {
