@@ -85,7 +85,7 @@ const getProductById = async (req, res) => {
       return res.status(404).send({ message: "No such product found" });
     }
   } catch (err) {
-    return res.status(404).send({ message: "No such product found" });
+    return res.status(500).send({ message: "Internal server error" });
   }
 };
 
@@ -114,7 +114,7 @@ const updateProduct = async (req, res) => {
 
   try {
     const response = await Product.findOneAndUpdate({ _id: Id }, productUpdate);
-    
+
     if (response) {
       return res.status(200).send({ message: "Successfully updated Product " });
     } else {
@@ -161,6 +161,41 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+//search by product name
+async function searchProducts(query) {
+  try {
+    const regex = new RegExp(query, "i");
+    //console.log("regex ", regex);
+    const searchResult = await Product.find({
+      $or: [
+        { title: regex },
+        { brand: regex },
+        { description: regex },
+        { category: regex },
+        { type: regex },
+      ],
+    });
+    //console.log("searchResult ", searchResult);
+    return searchResult;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+const search = async (req, res) => {
+  try {
+    const query = req.query.q;
+    //console.log("query ", query);
+    const results = await searchProducts(query);
+    //console.log("results ", results);
+    res.json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProduct,
@@ -168,4 +203,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   deleteUpdate,
+  search,
 };
