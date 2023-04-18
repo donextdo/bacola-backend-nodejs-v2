@@ -4,6 +4,8 @@ const Review = require("../models/review");
 const addReview = async (req, res) => {
   const productId = req.body.productId;
   const userId = req.body.userId;
+  const name = req.body.name;
+  const email = req.body.email;
   const rating = req.body.rating;
   const title = req.body.title;
   const body = req.body.body;
@@ -17,6 +19,8 @@ const addReview = async (req, res) => {
   const review = new Review({
     productId,
     userId,
+    name,
+    email,
     rating,
     title,
     body,
@@ -115,6 +119,8 @@ const updateReviews = async (req, res) => {
     Id: reviewId,
     productId: reviews.productId,
     userId: reviews.userId,
+    name: reviews.name,
+    email: reviews.email,
     rating: req.body.rating,
     title: req.body.title,
     body: req.body.body,

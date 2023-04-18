@@ -6,7 +6,7 @@ const app = express();
 const unless = require("express-unless");
 const auth = require("./middlewares/jwt");
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 const URL = process.env.MONGO_URI;
 
 app.use(express.urlencoded({ extended: false }));

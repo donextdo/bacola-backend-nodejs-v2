@@ -6,7 +6,10 @@ const addProduct = async (req, res) => {
   const title = req.body.title;
   const brand = req.body.brand;
   const description = req.body.description;
-  const image = req.body.image;
+  //const image = req.body.image;
+  const front = req.body.front;
+  const back = req.body.back;
+  const side = req.body.side;
   const category = req.body.category;
   const quantity = req.body.quantity;
   const price = req.body.price;
@@ -17,6 +20,7 @@ const addProduct = async (req, res) => {
   const expDate = req.body.expDate;
   const discount = req.body.discount;
   const review = req.body.review;
+  const additionalInformation = req.body.additionalInformation;
   const createdAt = new Date();
   const updatedAt = null;
   const deletedAt = null;
@@ -26,7 +30,10 @@ const addProduct = async (req, res) => {
     title,
     brand,
     description,
-    image,
+    //image,
+    front,
+    back,
+    side,
     category,
     quantity,
     price,
@@ -37,6 +44,7 @@ const addProduct = async (req, res) => {
     expDate,
     discount,
     review,
+    additionalInformation,
     createdAt,
     updatedAt,
     deletedAt,
@@ -99,7 +107,10 @@ const updateProduct = async (req, res) => {
     title: product.title,
     brand: req.body.brand,
     description: req.body.description,
-    image: req.body.image,
+    //image: req.body.image,
+    front: req.body.front,
+    back: req.body.back,
+    side: req.body.side,
     category: req.body.category,
     quantity: req.body.quantity,
     price: req.body.price,
@@ -110,6 +121,7 @@ const updateProduct = async (req, res) => {
     expDate: req.body.expDate,
     discount: req.body.discount,
     review: req.body.review,
+    additionalInformation: req.body.additionalInformation,
     updatedAt: new Date(),
   };
 

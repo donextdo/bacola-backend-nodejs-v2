@@ -14,20 +14,20 @@ const categorySchema = new mongoose.Schema({
 
 const Category = mongoose.model("Category", categorySchema);
 
-const imageSchema = new mongoose.Schema({
-  front: {
-    type: String,
-    required: true,
-  },
-  side: {
-    type: String,
-    required: true,
-  },
-  back: {
-    type: String,
-    required: true,
-  },
-});
+// const imageSchema = new mongoose.Schema({
+//   front: {
+//     type: String,
+//     required: true,
+//   },
+//   side: {
+//     type: String,
+//     required: true,
+//   },
+//   back: {
+//     type: String,
+//     required: true,
+//   },
+// });
 
 const ProductSchema = new Schema({
   title: {
@@ -43,7 +43,19 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
-  image: [imageSchema],
+  //image: [imageSchema],
+  front: {
+    type: String,
+    required: true,
+  },
+  side: {
+    type: String,
+    required: true,
+  },
+  back: {
+    type: String,
+    required: true,
+  },
   category: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -83,6 +95,9 @@ const ProductSchema = new Schema({
   },
   review: {
     type: String,
+  },
+  additionalInformation: {
+    type: Object,
   },
   updatedAt: {
     type: Date,
