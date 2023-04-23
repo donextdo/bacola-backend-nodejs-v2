@@ -46,14 +46,31 @@ const getSubCatergoryById = async (req, res) => {
 };
 
 const getParentCatergoryById = async (req, res) => {
-  Category.find({ parentId: null })
-    .exec()
-    .then((categories) => {
-      return res.json(categories);
-    })
-    .catch((err) => {
-      return res.status(500).send({ message: "Internal server error" });
-    });
+  const parentId = req.params.id;
+  try {
+    let response = await Category.find({ _id: parentId });
+    if (response) {
+      return res.json(response);
+    }
+  } catch (err) {
+    return res.status(500).send({ message: "Internal server error" });
+  }
+};
+
+const getParent = async (req, res) => {
+  try {
+    //const id = req.params.id;
+    const category = await Category.find({ parentId: null }).populate(
+      "subcategories"
+    );
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    res.json(category);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
 };
 
 // async function insertCategory(name, parentId) {
@@ -120,4 +137,5 @@ module.exports = {
   insertCategory,
   getSubCatergoryById,
   getParentCatergoryById,
+  getParent,
 };

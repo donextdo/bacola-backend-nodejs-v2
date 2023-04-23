@@ -210,6 +210,18 @@ const search = async (req, res) => {
   }
 };
 
+const getCategories = async (req, res) => {
+  try {
+    const products = await Product.find({ category: req.params.categoryId })
+      .populate("category")
+      .exec();
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProduct,
@@ -218,4 +230,5 @@ module.exports = {
   deleteProduct,
   deleteUpdate,
   search,
+  getCategories,
 };

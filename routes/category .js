@@ -6,6 +6,6 @@ let catergoryController = require("../controllers/category ");
 
 router.post("/insert", catergoryController.insertCategory);
 router.get("/:id", catergoryController.getSubCatergoryById);
-router.get("/parent-categories", catergoryController.getParentCatergoryById);
-
+router.get("/get/:id", catergoryController.getParentCatergoryById);
+router.get("/", catergoryController.getParent);
 module.exports = router;
