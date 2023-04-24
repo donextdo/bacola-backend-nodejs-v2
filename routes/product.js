@@ -11,4 +11,10 @@ router.put("/:id", productController.updateProduct);
 router.delete("/:id", productController.deleteProduct);
 router.post("/deletSave/:id", productController.deleteUpdate);
 router.get("/search", productController.search);
+router.get("/:categoryId", productController.getCategories);
+router.get("/brands/:categoryId", productController.getBrandsName);
+// router.get(
+//   "/categoryId/:categoryId/subcategory/:subCategoryId",
+//   productController.getSubCatergory
+// );
 module.exports = router;

@@ -210,6 +210,52 @@ const search = async (req, res) => {
   }
 };
 
+const getCategories = async (req, res) => {
+  try {
+    const products = await Product.find({ category: req.params.categoryId })
+      .populate("category")
+      .exec();
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+const getBrandsName = async (req, res) => {
+  try {
+    const products = await Product.find({
+      category: req.params.categoryId,
+    }).select("brand");
+    const brands = products.map((product) => product.brand);
+    const uniqueBrands = [...new Set(brands)]; // Get unique brands using a Set
+
+    res.status(200).json({ brands: uniqueBrands });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// const getSubCatergory = async (req, res) => {
+//   const categoryId = req.params.categoryId;
+//   const subCategoryId = req.params.subCategoryId;
+
+//   try {
+//     const products = await Product.find({
+//       category: { $in: [categoryId, subCategoryId] },
+//     })
+//       .populate({
+//         path: "category",
+//         populate: { path: "subcategories" },
+//       })
+//       .exec();
+//     res.json(products);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
 module.exports = {
   addProduct,
   getAllProduct,
@@ -218,4 +264,7 @@ module.exports = {
   deleteProduct,
   deleteUpdate,
   search,
+  getCategories,
+  getBrandsName,
+  //getSubCatergory,
 };
