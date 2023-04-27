@@ -1,34 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-// const categorySchema = new mongoose.Schema({
-//   name: {
-//     type: String,
-//     required: true,
-//   },
-//   parent: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Category",
-//   },
-// });
-
-//const Category = mongoose.model("Category", categorySchema);
-
-// const imageSchema = new mongoose.Schema({
-//   front: {
-//     type: String,
-//     required: true,
-//   },
-//   side: {
-//     type: String,
-//     required: true,
-//   },
-//   back: {
-//     type: String,
-//     required: true,
-//   },
-// });
-
 const ProductSchema = new Schema({
   title: {
     type: String,
@@ -37,13 +9,13 @@ const ProductSchema = new Schema({
   },
   brand: {
     type: String,
-    //required: true,
+    
   },
   description: {
     type: String,
     required: true,
   },
-  //image: [imageSchema],
+ 
   front: {
     type: String,
   },
@@ -111,4 +83,4 @@ const ProductSchema = new Schema({
 });
 
 const Product = mongoose.model("product", ProductSchema);
-module.exports = { Product };
+module.exports = Product;

@@ -1,5 +1,6 @@
-const { Product } = require("../models/product");
+const  Product = require("../models/product");
 const { request } = require("express");
+const axios = require("axios");
 
 //insert product
 const addProduct = async (req, res) => {
@@ -185,7 +186,6 @@ async function searchProducts(query) {
         { title: regex },
         { brand: regex },
         { description: regex },
-        { category: regex },
         { type: regex },
       ],
     });
@@ -256,6 +256,90 @@ const getBrandsName = async (req, res) => {
 //   }
 // };
 
+// Endpoint for filtering products by category, subcategory, and brands
+// const getproductByfilter = async (req, res) => {
+//   const baseUrl = "http://localhost:4000/api";
+
+//   try {
+//     // Retrieve query parameters from the request
+//     const categoryId = req.query.categoryId;
+//     const subCategories = req.query.subCategories;
+//     const brands = req.query.brands;
+
+//     // Create an array of subcategories
+//     const subCatArr =
+//       typeof subCategories === "string" ? subCategories.split(",") : [];
+
+//     // Create an array of brands
+//     const brandArr = typeof brands === "string" ? brands.split(",") : [];
+
+//     // Make an API request to retrieve products by category or subcategory
+//     const url =
+//       subCatArr.length > 0
+//         ? `${baseUrl}/products/${subCatArr}`
+//         : `${baseUrl}/products/${categoryId}`;
+//     const response = await axios.get(url);
+
+//     // Filter products by brands, if applicable
+//     let products = response.data;
+//     if (brandArr.length > 0) {
+//       products = products.filter((product) => brandArr.includes(product.brand));
+//     }
+
+//     res.status(200).json(products);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
+const getproductByfilter = async (req, res) => {
+  const baseUrl = "http://localhost:4000/api";
+
+  const subCategories = [
+    "644601e0c972e44bd4e6ea91",
+    // "64460154c972e44bd4e6ea84",
+    // "644601cdc972e44bd4e6ea8d",
+    // "64403937a462a1a4d60e76c6",
+  ];
+  const brands = ["Oreo"];
+
+  const categoryId = "644007834ddc2982ee097a72";
+
+  try {
+    // const categoryId = req.query.categoryId;
+    // const subCategories = req.query.subCategories;
+    // const brands = req.query.brands;
+
+    const subCatArr =
+      typeof subCategories === "string" ? subCategories.split(",") : [];
+    console.log("subCatArr ", subCatArr);
+    const brandArr = typeof brands === "string" ? brands.split(",") : [];
+
+    const url =
+      subCatArr.length > 0
+        ? `${baseUrl}/products/${subCategories}`
+        : `${baseUrl}/products/${categoryId}`;
+    // const url =
+    //   subCatArr.length > 0
+    //     ? `${baseUrl}/products/${subCatArr}`
+    //     : `${baseUrl}/products/${catArr}`;
+    const response = await axios.get(url);
+    console.log("response", response.data);
+    console.log("dhjj");
+    // Filter products by brands, if applicable
+    let products = response.data;
+    if (brandArr.length > 0) {
+      products = products.filter((product) => brandArr.includes(product.brand));
+    }
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 module.exports = {
   addProduct,
   getAllProduct,
@@ -267,4 +351,5 @@ module.exports = {
   getCategories,
   getBrandsName,
   //getSubCatergory,
+  getproductByfilter,
 };
