@@ -2,11 +2,10 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const OrderSchema = new Schema({
-
-  orderId:{
+  orderId: {
     type: String,
-    required : true,
-    unique : true
+    required: true,
+    unique: true,
   },
 
   userId: {
@@ -14,28 +13,38 @@ const OrderSchema = new Schema({
     required: true,
   },
 
-  item:{},
+  items: [],
 
   date: {
     type: String,
   },
 
-  total: {},
+  totalprice: {},
 
   status: {},
 
-  createdAt:{
+  createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
 
-  deletedAt:{
+  deletedAt: {
     type: Date,
-    default:null
-
-  }
+    default: null,
+  },
 });
 
 const Order = mongoose.model("order", OrderSchema);
 
 module.exports = Order;
+// {
+//   productId: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: "Product",
+//     required: true,
+//   },
+//   orderquantity: {
+//     type: Number,
+//     required: true,
+//   },
+// },

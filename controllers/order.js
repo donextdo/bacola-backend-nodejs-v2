@@ -1,29 +1,28 @@
-const Order = require ("../models/order");
+const Order = require("../models/order");
 const { request } = require("express");
+const Product = require("../models/product");
 
-const createOrder = async (req,res)=>{
-    const orderId = req.body.orderId;
-    const userId = req.body.userId;
-    const item = req.body.item;
-    const date = req.body.date;
-    const total = req.body.total;
-    const status = req.body.status;
-    const createdAt = new Date();
-    const deletedAt = null;
+const createOrder = async (req, res) => {
+  const orderId = req.body.orderId;
+  const userId = req.body.userId;
+  const items = req.body.items;
+  const date = req.body.date;
+  const totalprice = req.body.totalprice;
+  const status = req.body.status;
+  const createdAt = new Date();
+  const deletedAt = null;
 
-    const order = new Order ({
-
+  const order = new Order({
     orderId,
     userId,
-    item,
+    items,
     date,
-    total,
+    totalprice,
     status,
     createdAt,
-    deletedAt
-    
-});
-try {
+    deletedAt,
+  });
+  try {
     let response = await order.save();
     if (response) {
       return res.status(201).send({ message: "Order Successfull" });
@@ -35,9 +34,6 @@ try {
     return res.status(400).send({ message: "Error while placing Order" });
   }
 };
-
-
-
 
 //get all orders
 const getAllOrders = async (req, res) => {
@@ -55,15 +51,13 @@ const getAllOrders = async (req, res) => {
   }
 };
 
-
 //get order by id
 const getOrderById = async (req, res) => {
   const orderId = req.params.id;
-  
 
   try {
     let response = await Order.findById(orderId);
-  
+
     if (response) {
       return res.json(response);
     } else {
@@ -80,20 +74,19 @@ const updateOrder = async (req, res) => {
   const Id = req.params.id;
 
   let orderUpdate = {
-     orderId : req.body.orderId,
-     userId : req.body.userId,
-     item : req.body.item,
-     date : req.body.date,
-     total : req.body.total,
-     status : req.body.status,
-     createdAt : new Date(),
-     deletedAt : null,
-   
+    orderId: req.body.orderId,
+    userId: req.body.userId,
+    items: req.body.items,
+    date: req.body.date,
+    totalprice: req.body.totalprice,
+    status: req.body.status,
+    createdAt: new Date(),
+    deletedAt: null,
   };
 
   try {
     const response = await Order.findOneAndUpdate({ _id: Id }, orderUpdate);
-    
+
     if (response) {
       return res.status(200).send({ message: "Successfully updated Order " });
     } else {
@@ -104,16 +97,13 @@ const updateOrder = async (req, res) => {
   }
 };
 
-
 //delete order by id
 const deleteOrder = async (req, res) => {
   const Id = req.params.id;
   try {
     const response = await Order.findByIdAndDelete({ _id: Id });
     if (response) {
-      return res
-        .status(204)
-        .send({ message: "Successfully deleted a Order" });
+      return res.status(204).send({ message: "Successfully deleted a Order" });
     } else {
       return res.status(500).send({ message: "Internal server error" });
     }
@@ -123,6 +113,64 @@ const deleteOrder = async (req, res) => {
   }
 };
 
+const getOrderByUser = async (req, res) => {
+  const userId = req.params.userId;
+  console.log("user Id", userId);
+  try {
+    const orders = await Order.find({ userId: userId });
+
+    const orderDetails = [];
+
+    for (let i = 0; i < orders.length; i++) {
+      const order = orders[i];
+
+      const productIds = [
+        ...new Set(order.items.map((item) => item.productId)),
+      ];
+
+      const products = await Product.find({ _id: { $in: productIds } });
+
+      const productMap = {};
+      products.forEach((product) => {
+        productMap[product._id] = {
+          name: product.title,
+          brand: product.brand,
+          description: product.description,
+          price: product.price,
+          front: product.front,
+        };
+      });
+
+      const itemDetails = [];
+
+      for (let j = 0; j < order.items.length; j++) {
+        const item = order.items[j];
+
+        itemDetails.push({
+          productId: item.productId,
+          orderquantity: item.orderquantity,
+          productDetails: productMap[item.productId],
+        });
+      }
+
+      orderDetails.push({
+        orderId: order.orderId,
+        userId: order.userId,
+        items: itemDetails,
+        date: order.date,
+        totalprice: order.totalprice,
+        status: order.status,
+        createdAt: order.createdAt,
+        deletedAt: order.deletedAt,
+      });
+    }
+
+    res.json(orderDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
 module.exports = {
   createOrder,
@@ -130,4 +178,5 @@ module.exports = {
   getOrderById,
   updateOrder,
   deleteOrder,
+  getOrderByUser,
 };
