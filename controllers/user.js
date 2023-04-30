@@ -14,7 +14,6 @@ const register = async (req, res) => {
   const companyName = req.body.companyName;
   const billingAddress = req.body.billingAddress;
   const shippingAddress = req.body.shippingAddress;
-  const phone = req.body.phone;
 
   const salt = bcrypt.genSaltSync(10);
   const password = bcrypt.hashSync(pwd, salt);
@@ -28,8 +27,7 @@ const register = async (req, res) => {
     lastName,
     companyName,
     billingAddress,
-    shippingAddress,
-    phone,
+    shippingAddress
   });
 
   try {
@@ -56,7 +54,7 @@ const login = async (req, res) => {
   const password = req.body.password;
 
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
 
     if (user) {
       if (user && bcrypt.compareSync(password, user.password)) {
@@ -91,11 +89,11 @@ const getAllUsers = async (req, res) => {
 };
 
 const getOneUser = async (req, res) => {
-  const email = req.params.email;
+  const id = req.params.id;
 
   try {
     let user = await User.findOne({
-      email: email,
+      _id : id,
     });
     if (user) {
       return res.json(user);
@@ -108,11 +106,11 @@ const getOneUser = async (req, res) => {
 };
 
 const updateUserPassword = async (req, res) => {
-  const email = req.params.email;
+  const id = req.params.id;
   const password = req.params.pwd;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ id });
     if (user) {
       const salt = bcrypt.genSaltSync(10);
       const updatePassword = bcrypt.hashSync(password, salt);
@@ -125,7 +123,7 @@ const updateUserPassword = async (req, res) => {
       };
 
       try {
-        const response = await User.findOneAndUpdate({ email: email }, newUser);
+        const response = await User.findOneAndUpdate({ _id: id }, newUser);
         if (response) {
           return res
             .status(200)
@@ -149,25 +147,25 @@ const updateUserPassword = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const email = req.params.email;
-  const user = await User.findOne({ email: email });
+  const id = req.params.id;
+  const user = await User.findOne({ _id: id });
   const password = user.password;
 
   const updateUser = {
+    id: req.params.id,
     userName: req.body.userName,
     email: req.body.email,
     password: password,
     isFavourite: req.body.isFavourite,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    companyName: req.body.companyName,
+    displayName: req.body.displayName,
     billingAddress: req.body.billingAddress,
-    phone: req.body.phone,
     shippingAddress: req.body.shippingAddress,
   };
 
   try {
-    const response = await User.findOneAndUpdate({ email: email }, updateUser);
+    const response = await User.findOneAndUpdate({ _id : id }, updateUser);
     if (response) {
       return res
         .status(200)

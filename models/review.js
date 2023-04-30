@@ -4,11 +4,11 @@ const { Schema } = mongoose;
 const ReviewSchema = new Schema({
   productId: {
     type: String,
-    required: true,
+    // required: true,
   },
   userId: {
     type: String,
-    required: true,
+    // required: true,
   },
   name: {
     type: String,
@@ -16,7 +16,7 @@ const ReviewSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
+    // required: true,
   },
   rating: {
     type: Number,
@@ -26,7 +26,7 @@ const ReviewSchema = new Schema({
   },
   title: {
     type: String,
-    required: true,
+    // required: true,
   },
   body: {
     type: String,
@@ -38,7 +38,7 @@ const ReviewSchema = new Schema({
   },
   verifiedPurchase: {
     type: Boolean,
-    required: true,
+    // required: true,
   },
   imagesOrVideos: [String],
   reviewStatus: {

@@ -1,6 +1,6 @@
 const  Product = require("../models/product");
 const { request } = require("express");
-const axios = require("axios");
+// const axios = require("axios");
 
 //insert product
 const addProduct = async (req, res) => {
@@ -293,52 +293,52 @@ const getBrandsName = async (req, res) => {
 //   }
 // };
 
-const getproductByfilter = async (req, res) => {
-  const baseUrl = "http://localhost:4000/api";
+// const getproductByfilter = async (req, res) => {
+//   const baseUrl = "http://localhost:4000/api";
 
-  const subCategories = [
-    "644601e0c972e44bd4e6ea91",
-    // "64460154c972e44bd4e6ea84",
-    // "644601cdc972e44bd4e6ea8d",
-    // "64403937a462a1a4d60e76c6",
-  ];
-  const brands = ["Oreo"];
+//   const subCategories = [
+//     "644601e0c972e44bd4e6ea91",
+//     // "64460154c972e44bd4e6ea84",
+//     // "644601cdc972e44bd4e6ea8d",
+//     // "64403937a462a1a4d60e76c6",
+//   ];
+//   const brands = ["Oreo"];
 
-  const categoryId = "644007834ddc2982ee097a72";
+//   const categoryId = "644007834ddc2982ee097a72";
 
-  try {
-    // const categoryId = req.query.categoryId;
-    // const subCategories = req.query.subCategories;
-    // const brands = req.query.brands;
+//   try {
+//     // const categoryId = req.query.categoryId;
+//     // const subCategories = req.query.subCategories;
+//     // const brands = req.query.brands;
 
-    const subCatArr =
-      typeof subCategories === "string" ? subCategories.split(",") : [];
-    console.log("subCatArr ", subCatArr);
-    const brandArr = typeof brands === "string" ? brands.split(",") : [];
+//     const subCatArr =
+//       typeof subCategories === "string" ? subCategories.split(",") : [];
+//     console.log("subCatArr ", subCatArr);
+//     const brandArr = typeof brands === "string" ? brands.split(",") : [];
 
-    const url =
-      subCatArr.length > 0
-        ? `${baseUrl}/products/${subCategories}`
-        : `${baseUrl}/products/${categoryId}`;
-    // const url =
-    //   subCatArr.length > 0
-    //     ? `${baseUrl}/products/${subCatArr}`
-    //     : `${baseUrl}/products/${catArr}`;
-    const response = await axios.get(url);
-    console.log("response", response.data);
-    console.log("dhjj");
-    // Filter products by brands, if applicable
-    let products = response.data;
-    if (brandArr.length > 0) {
-      products = products.filter((product) => brandArr.includes(product.brand));
-    }
+//     const url =
+//       subCatArr.length > 0
+//         ? `${baseUrl}/products/${subCategories}`
+//         : `${baseUrl}/products/${categoryId}`;
+//     // const url =
+//     //   subCatArr.length > 0
+//     //     ? `${baseUrl}/products/${subCatArr}`
+//     //     : `${baseUrl}/products/${catArr}`;
+//     const response = await axios.get(url);
+//     console.log("response", response.data);
+//     console.log("dhjj");
+//     // Filter products by brands, if applicable
+//     let products = response.data;
+//     if (brandArr.length > 0) {
+//       products = products.filter((product) => brandArr.includes(product.brand));
+//     }
 
-    res.status(200).json(products);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
+//     res.status(200).json(products);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server Error" });
+//   }
+// };
 
 module.exports = {
   addProduct,
@@ -351,5 +351,5 @@ module.exports = {
   getCategories,
   getBrandsName,
   //getSubCatergory,
-  getproductByfilter,
+  // getproductByfilter,
 };

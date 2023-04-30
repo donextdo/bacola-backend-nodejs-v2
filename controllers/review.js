@@ -33,7 +33,7 @@ const addReview = async (req, res) => {
   try {
     let response = await review.save();
     if (response) {
-      return res.status(201).send({ message: "New Review Insered" });
+      return res.status(201).send({ message: "New Review Inserted" });
     } else {
       return res.status(500).send({ message: "Internal server error" });
     }
