@@ -3,7 +3,7 @@ const { request } = require("express");
 const Product = require("../models/product");
 
 const createOrder = async (req, res) => {
-  const orderId = req.body.orderId;
+  // const orderId = req.body.orderId;
   const userId = req.body.userId;
   const items = req.body.items;
   const date = req.body.date;
@@ -13,7 +13,7 @@ const createOrder = async (req, res) => {
   const deletedAt = null;
 
   const order = new Order({
-    orderId,
+    // orderId,
     userId,
     items,
     date,
@@ -123,6 +123,7 @@ const getOrderByUser = async (req, res) => {
 
     for (let i = 0; i < orders.length; i++) {
       const order = orders[i];
+      console.log("order", order);
 
       const productIds = [
         ...new Set(order.items.map((item) => item.productId)),
@@ -154,7 +155,7 @@ const getOrderByUser = async (req, res) => {
       }
 
       orderDetails.push({
-        orderId: order.orderId,
+        orderId: order._id,
         userId: order.userId,
         items: itemDetails,
         date: order.date,

@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const OrderSchema = new Schema({
-  orderId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
+  // orderId: {
+  //   type: String,
+  //   // required: true,
+  //   unique: true,
+  // },
 
   userId: {
     type: String,
