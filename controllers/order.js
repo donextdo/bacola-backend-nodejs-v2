@@ -6,6 +6,7 @@ const createOrder = async (req, res) => {
   const orderId = req.body.orderId;
   const userId = req.body.userId;
   const items = req.body.items;
+  const bill = req.body.bill;
   const date = req.body.date;
   const totalprice = req.body.totalprice;
   const status = req.body.status;
@@ -16,6 +17,7 @@ const createOrder = async (req, res) => {
     orderId,
     userId,
     items,
+    bill,
     date,
     totalprice,
     status,
@@ -39,7 +41,7 @@ const createOrder = async (req, res) => {
 const getAllOrders = async (req, res) => {
   try {
     let orders = await Order.find();
-    if (products) {
+    if (orders) {
       return res.json(orders);
     } else {
       return res
@@ -77,6 +79,7 @@ const updateOrder = async (req, res) => {
     orderId: req.body.orderId,
     userId: req.body.userId,
     items: req.body.items,
+    bill: req.body.bill,
     date: req.body.date,
     totalprice: req.body.totalprice,
     status: req.body.status,

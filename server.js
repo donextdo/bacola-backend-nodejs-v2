@@ -18,21 +18,6 @@ mongoose.connect(URL, {
   useUnifiedTopology: true,
 });
 
-// auth.authenticateToken.unless = unless;
-// app.use(
-//   auth.authenticateToken.unless({
-//     path: [{ url: "/api/users/register", methods: ["POST"] }],
-//     path: [{ url: "/api/users/login", methods: ["POST"] }],
-//   })
-// );
-
-// const unlessPaths = [
-//   { url: "/api/users/register", methods: ["POST"] },
-//   { url: "/api/users/login", methods: ["POST"] },
-// ];
-
-// app.use(auth.authenticateToken.unless({ path: unlessPaths }));
-
 function authenticateUnlessRegisterOrLogin(req, res, next) {
   if (req.path === "/api/users/register" && req.method === "POST") {
     return next();
