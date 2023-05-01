@@ -15,7 +15,30 @@ const OrderSchema = new Schema({
 
   items: [],
 
-  bill: {},
+  bill: {
+    type: [
+      {
+        street: {
+          type: String,
+        },
+        town: {
+          type: String,
+        },
+        state: {
+          type: String,
+        },
+        country: {
+          type: String,
+        },
+        zipCode: {
+          type: String,
+        },
+        note: {
+          type: String,
+        },
+      },
+    ],
+  },
 
   date: {
     type: String,
