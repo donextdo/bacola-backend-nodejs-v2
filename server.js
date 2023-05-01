@@ -18,19 +18,19 @@ mongoose.connect(URL, {
   useUnifiedTopology: true,
 });
 
-function authenticateUnlessRegisterOrLogin(req, res, next) {
-  if (req.path === "/api/users/register" && req.method === "POST") {
-    return next();
-  }
+// function authenticateUnlessRegisterOrLogin(req, res, next) {
+//   if (req.path === "/api/users/register" && req.method === "POST") {
+//     return next();
+//   }
 
-  if (req.path === "/api/users/login" && req.method === "POST") {
-    return next();
-  }
+//   if (req.path === "/api/users/login" && req.method === "POST") {
+//     return next();
+//   }
 
-  return auth.authenticateToken(req, res, next);
-}
+//   return auth.authenticateToken(req, res, next);
+// }
 
-app.use(authenticateUnlessRegisterOrLogin);
+// app.use(authenticateUnlessRegisterOrLogin);
 
 const server = app.listen(port, () => {
   console.log(`Server Is Running on Port: ${port}`);
