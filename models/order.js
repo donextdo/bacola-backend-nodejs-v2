@@ -15,6 +15,8 @@ const OrderSchema = new Schema({
 
   items: [],
 
+  bill: {},
+
   date: {
     type: String,
   },
