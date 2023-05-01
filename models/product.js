@@ -60,7 +60,7 @@ const ProductSchema = new Schema({
     required: true,
   },
   discount: {
-    type: String,
+    type: Number,
   },
   review: {
     type: String,
