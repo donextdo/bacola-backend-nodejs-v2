@@ -15,29 +15,25 @@ const OrderSchema = new Schema({
 
   items: [],
 
-  bill: {
-    type: [
+  billingAddress: {
+    type: 
       {
-        street: {
-          type: String,
-        },
-        town: {
-          type: String,
-        },
-        state: {
-          type: String,
-        },
-        country: {
-          type: String,
-        },
-        zipCode: {
-          type: String,
-        },
-        note: {
-          type: String,
-        },
+        billingFirstName : { type: String, required : true},
+        billingLastName : { type: String, required : true},
+        billingCompanyName : { type: String, required : false},
+        billingPhone: { type: String, required: false, trim: true },
+        street: { type: String, required: true },
+        apartment: { type: String, required: false},
+        town: { type: String, required: true },
+        state: { type: String, required: true },
+        country: { type: String, required: true },
+        zipCode: { type: String, required: true },
+        billingEmail: { type: String, required: true },
+        note: { type: String, required:false},
+
       },
-    ],
+    
+    required: true,
   },
 
   date: {
