@@ -5,11 +5,15 @@ const auth = require("../middlewares/jwt");
 
 //register new user
 const register = async (req, res) => {
-  const id = req.params.id;
   const userName = req.body.userName;
   const email = req.body.email;
   const pwd = req.body.password;
   const isFavourite = req.body.isFavourite;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const companyName = req.body.companyName;
+  const billingAddress = req.body.billingAddress;
+  const shippingAddress = req.body.shippingAddress;
 
   const salt = bcrypt.genSaltSync(10);
   const password = bcrypt.hashSync(pwd, salt);
@@ -19,10 +23,15 @@ const register = async (req, res) => {
     email,
     password,
     isFavourite,
+    firstName,
+    lastName,
+    companyName,
+    billingAddress,
+    shippingAddress
   });
 
   try {
-    const userExists = await User.findOne({ _id });
+    const userExists = await User.findOne({ email });
     if (userExists) {
       res.status(400).send({ message: "User Already Exists" });
     } else {
@@ -42,11 +51,10 @@ const register = async (req, res) => {
 //login user
 const login = async (req, res) => {
   const email = req.body.email;
-  const id = req.params.id;
   const password = req.body.password;
 
   try {
-    const user = await User.findOne({ _id: req.params.id });
+    const user = await User.findOne({ email });
 
     if (user) {
       if (user && bcrypt.compareSync(password, user.password)) {
@@ -139,7 +147,7 @@ const updateUserPassword = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const email = req.params.id;
+  const id = req.params.id;
   const user = await User.findOne({ _id: id });
   const password = user.password;
 
@@ -153,7 +161,6 @@ const updateUser = async (req, res) => {
     lastName: req.body.lastName,
     displayName: req.body.displayName,
     billingAddress: req.body.billingAddress,
-    phone: req.body.phone,
     shippingAddress: req.body.shippingAddress,
   };
 
