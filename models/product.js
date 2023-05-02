@@ -63,7 +63,7 @@ const ProductSchema = new Schema({
     type: Number,
   },
   review: {
-    type: String,
+    type: Number,
   },
   additionalInformation: {
     type: Object,
