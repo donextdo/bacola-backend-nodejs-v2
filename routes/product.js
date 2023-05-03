@@ -13,6 +13,7 @@ router.post("/deletSave/:id", productController.deleteUpdate);
 router.get("/search", productController.search);
 router.get("/:categoryId", productController.getCategories);
 router.get("/brands/:categoryId", productController.getBrandsName);
+router.get("/", productController.pagePagination);
 // router.get("/", productController.getproductByfilter);
 // router.get(
 //   "/categoryId/:categoryId/subcategory/:subCategoryId",
