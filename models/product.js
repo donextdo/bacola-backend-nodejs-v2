@@ -9,13 +9,12 @@ const ProductSchema = new Schema({
   },
   brand: {
     type: String,
-    
   },
   description: {
     type: String,
     required: true,
   },
- 
+
   front: {
     type: String,
   },
@@ -65,9 +64,8 @@ const ProductSchema = new Schema({
   review: {
     type: Number,
   },
-  additionalInformation: {
-    type: Object,
-  },
+  additionalInformation: [],
+
   updatedAt: {
     type: Date,
     default: null,

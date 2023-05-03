@@ -1,4 +1,4 @@
-const  Product = require("../models/product");
+const Product = require("../models/product");
 const { request } = require("express");
 // const axios = require("axios");
 
@@ -236,7 +236,36 @@ const getBrandsName = async (req, res) => {
   }
 };
 
+const pagePagination = async (req, res) => {
+  try {
+    // Default to page 1 and 10 items per page
+    const { page=1, limit = 12 } = req.query;
+    const skip = (page - 1) * limit;
 
+    // Fetch products based on pagination settings
+    const products = await Product.find()
+      .skip(skip)
+      .limit(parseInt(limit))
+      .exec();
+
+    // Get the total count of products in the database
+    const count = await Product.countDocuments();
+
+    // Construct the pagination response object
+    const response = {
+      products,
+      currentPage: parseInt(page),
+      totalPages: Math.ceil(count / limit),
+      totalItems: count,
+    };
+
+    // Send the response to the client
+    res.json(response);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
 module.exports = {
   addProduct,
@@ -248,6 +277,7 @@ module.exports = {
   search,
   getCategories,
   getBrandsName,
+  pagePagination,
   //getSubCatergory,
   // getproductByfilter,
 };

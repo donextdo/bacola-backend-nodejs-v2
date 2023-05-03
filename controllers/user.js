@@ -8,7 +8,7 @@ const register = async (req, res) => {
   const userName = req.body.userName;
   const email = req.body.email;
   const pwd = req.body.password;
-  const isFavourite = req.body.isFavourite;
+  const whishList = req.body.whishList;
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const companyName = req.body.companyName;
@@ -22,12 +22,12 @@ const register = async (req, res) => {
     userName,
     email,
     password,
-    isFavourite,
+    whishList,
     firstName,
     lastName,
     companyName,
     billingAddress,
-    shippingAddress
+    shippingAddress,
   });
 
   try {
@@ -93,7 +93,7 @@ const getOneUser = async (req, res) => {
 
   try {
     let user = await User.findOne({
-      _id : id,
+      _id: id,
     });
     if (user) {
       return res.json(user);
@@ -119,7 +119,7 @@ const updateUserPassword = async (req, res) => {
         userName: user.userName,
         email: user.email,
         password: updatePassword,
-        isFavourite: user.isFavourite,
+        whishList: user.whishList,
       };
 
       try {
@@ -156,7 +156,7 @@ const updateUser = async (req, res) => {
     userName: req.body.userName,
     email: req.body.email,
     password: password,
-    isFavourite: req.body.isFavourite,
+    whishList: req.body.whishList,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     displayName: req.body.displayName,
@@ -165,7 +165,7 @@ const updateUser = async (req, res) => {
   };
 
   try {
-    const response = await User.findOneAndUpdate({ _id : id }, updateUser);
+    const response = await User.findOneAndUpdate({ _id: id }, updateUser);
     if (response) {
       return res
         .status(200)
