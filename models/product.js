@@ -64,6 +64,17 @@ const ProductSchema = new Schema({
   review: {
     type: Number,
   },
+
+  soldCount: {
+    type: Number,
+  },
+
+  popularity: {
+    type: Number,
+  },
+
+  averageRating: {},
+
   additionalInformation: [],
 
   updatedAt: {

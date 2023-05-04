@@ -4,6 +4,6 @@ const router = express.Router();
 
 let productAdditionalController = require("../controllers/productAdditional");
 
-router.get("/", productAdditionalController.productCount);
+router.get("/", productAdditionalController.getproductByfilter);
 
 module.exports = router;

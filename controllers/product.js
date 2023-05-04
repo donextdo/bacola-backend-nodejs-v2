@@ -21,6 +21,9 @@ const addProduct = async (req, res) => {
   const expDate = req.body.expDate;
   const discount = req.body.discount;
   const review = req.body.review;
+  const soldCount = req.body.soldCount;
+  const popularity = req.body.popularity;
+  const averageRating = req.body.averageRating;
   const additionalInformation = req.body.additionalInformation;
   const createdAt = new Date();
   const updatedAt = null;
@@ -45,6 +48,9 @@ const addProduct = async (req, res) => {
     expDate,
     discount,
     review,
+    soldCount,
+    popularity,
+    averageRating,
     additionalInformation,
     createdAt,
     updatedAt,
@@ -68,6 +74,7 @@ const addProduct = async (req, res) => {
 const getAllProduct = async (req, res) => {
   try {
     let products = await Product.find();
+    //products = products.sort((a, b) => b.createdAt - a.createdAt);
     if (products) {
       return res.json(products);
     } else {
@@ -76,6 +83,7 @@ const getAllProduct = async (req, res) => {
         .send({ message: "Error occured when retrieving products" });
     }
   } catch (err) {
+    console.log(err);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -122,6 +130,9 @@ const updateProduct = async (req, res) => {
     expDate: req.body.expDate,
     discount: req.body.discount,
     review: req.body.review,
+    soldCount: req.body.soldCount,
+    popularity: req.body.review,
+    averageRating: req.body.averageRating,
     additionalInformation: req.body.additionalInformation,
     updatedAt: new Date(),
   };
