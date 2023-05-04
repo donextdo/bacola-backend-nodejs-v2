@@ -61,3 +61,6 @@ app.use("/api/favourites", favourite);
 
 let category = require("./routes/category ");
 app.use("/api/categories", category);
+
+let coupon = require("./routes/coupon");
+app.use("/api/coupons", coupon);

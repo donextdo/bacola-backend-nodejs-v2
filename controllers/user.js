@@ -223,6 +223,23 @@ const updateWishList = async (req, res) => {
   }
 };
 
+const getOneUserByEmail = async (req, res) => {
+  const { usernameOrEmail } = req.params;
+  try {
+    const user = await User.findOne({
+      $or: [{ userName: usernameOrEmail }, { email: usernameOrEmail }],
+    });
+
+    if (user) {
+      return res.status(200).send({ message: "User Exist" });
+    } // Return null if no user found
+    else if (!user) {
+      return res.status(400).send({ message: "Please check your credentials" });
+    }
+  } catch (err) {
+    return res.status(500).send({ message: "Internal server error" });
+  }
+};
 module.exports = {
   register,
   login,
@@ -231,4 +248,5 @@ module.exports = {
   updateUserPassword,
   updateUser,
   updateWishList,
+  getOneUserByEmail,
 };
