@@ -21,7 +21,7 @@ const OrderSchema = new Schema({
         billingFirstName : { type: String, required : true},
         billingLastName : { type: String, required : true},
         billingCompanyName : { type: String, required : false},
-        billingPhone: { type: String, required: false, trim: true },
+        billingPhone: { type: String, required: true, trim: true },
         street: { type: String, required: true },
         apartment: { type: String, required: false},
         town: { type: String, required: true },
