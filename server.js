@@ -47,6 +47,9 @@ app.use("/api/users", userAuth);
 let product = require("./routes/product");
 app.use("/api/products", product);
 
+let productDetails = require("./routes/productAdditional");
+app.use("/api/productDetails", productDetails);
+
 let order = require("./routes/order");
 app.use("/api/orders", order);
 
@@ -58,3 +61,6 @@ app.use("/api/favourites", favourite);
 
 let category = require("./routes/category ");
 app.use("/api/categories", category);
+
+let coupon = require("./routes/coupon");
+app.use("/api/coupons", coupon);

@@ -30,7 +30,7 @@ const UserSchema = new Schema({
     required: false
   },
 
-  isFavourite: {},
+  whishList: [],
 
   billingAddress: {
     type: 

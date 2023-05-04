@@ -1,4 +1,4 @@
-const  Product = require("../models/product");
+const Product = require("../models/product");
 const { request } = require("express");
 // const axios = require("axios");
 
@@ -21,6 +21,9 @@ const addProduct = async (req, res) => {
   const expDate = req.body.expDate;
   const discount = req.body.discount;
   const review = req.body.review;
+  const soldCount = req.body.soldCount;
+  const popularity = req.body.popularity;
+  const averageRating = req.body.averageRating;
   const additionalInformation = req.body.additionalInformation;
   const createdAt = new Date();
   const updatedAt = null;
@@ -45,6 +48,9 @@ const addProduct = async (req, res) => {
     expDate,
     discount,
     review,
+    soldCount,
+    popularity,
+    averageRating,
     additionalInformation,
     createdAt,
     updatedAt,
@@ -68,6 +74,7 @@ const addProduct = async (req, res) => {
 const getAllProduct = async (req, res) => {
   try {
     let products = await Product.find();
+    //products = products.sort((a, b) => b.createdAt - a.createdAt);
     if (products) {
       return res.json(products);
     } else {
@@ -76,6 +83,7 @@ const getAllProduct = async (req, res) => {
         .send({ message: "Error occured when retrieving products" });
     }
   } catch (err) {
+    console.log(err);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -122,6 +130,9 @@ const updateProduct = async (req, res) => {
     expDate: req.body.expDate,
     discount: req.body.discount,
     review: req.body.review,
+    soldCount: req.body.soldCount,
+    popularity: req.body.review,
+    averageRating: req.body.averageRating,
     additionalInformation: req.body.additionalInformation,
     updatedAt: new Date(),
   };
@@ -236,7 +247,36 @@ const getBrandsName = async (req, res) => {
   }
 };
 
+const pagePagination = async (req, res) => {
+  try {
+    // Default to page 1 and 10 items per page
+    const { page = 1, perpage = 12 } = req.query;
+    const skip = (page - 1) * perpage;
 
+    // Fetch products based on pagination settings
+    const products = await Product.find()
+      .skip(skip)
+      .limit(parseInt(perpage))
+      .exec();
+
+    // Get the total count of products in the database
+    const count = await Product.countDocuments();
+
+    // Construct the pagination response object
+    const response = {
+      products,
+      currentPage: parseInt(page),
+      totalPages: Math.ceil(count / perpage),
+      totalItems: count,
+    };
+
+    // Send the response to the client
+    res.json(response);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
 module.exports = {
   addProduct,
@@ -248,6 +288,7 @@ module.exports = {
   search,
   getCategories,
   getBrandsName,
+  pagePagination,
   //getSubCatergory,
   // getproductByfilter,
 };
