@@ -7,6 +7,7 @@ const createOrder = async (req, res) => {
   const userId = req.body.userId;
   const items = req.body.items;
   const billingAddress = req.body.billingAddress;
+  const shippingAddress = req.body.shippingAddress;
   const date = req.body.date;
   const totalprice = req.body.totalprice;
   const status = req.body.status;
@@ -18,6 +19,7 @@ const createOrder = async (req, res) => {
     userId,
     items,
     billingAddress,
+    shippingAddress,
     date,
     totalprice,
     status,
@@ -82,6 +84,7 @@ const updateOrder = async (req, res) => {
     userId: req.body.userId,
     items: req.body.items,
     billingAddress: req.body.billingAddress,
+    shippingAddress : req.body.shippingAddress,
     date: req.body.date,
     totalprice: req.body.totalprice,
     status: req.body.status,
@@ -164,6 +167,7 @@ const getOrderByUser = async (req, res) => {
         userId: order.userId,
         items: itemDetails,
         billingAddress: order.billingAddress,
+        shippingAddress: order.shippingAddress,
         date: order.date,
         totalprice: order.totalprice,
         status: order.status,
@@ -215,6 +219,7 @@ const getOrderById = async (req, res) => {
       userId: order.userId,
       items: itemDetails,
       billingAddress: order.billingAddress,
+      shippingAddress: order.shippingAddress,
       date: order.date,
       totalprice: order.totalprice,
       status: order.status,
