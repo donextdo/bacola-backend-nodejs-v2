@@ -180,7 +180,7 @@ const updateUser = async (req, res) => {
   }
 };
 
-const addToWishlist  = async (req, res) => {
+const updateWishList = async (req, res) => {
   const id = req.params.id;
   const user = await User.findOne({ _id: id });
   const userName = user.userName;
@@ -247,33 +247,7 @@ module.exports = {
   getOneUser,
   updateUserPassword,
   updateUser,
-  addToWishlist ,
+  updateWishList ,
   getOneUserByEmail,
 };
 
-
-// const addToWishlist = async (req, res) => {
-//   const id = req.params.id;
-//   const product = req.body.product;
-
-//   try {
-//     let user = await User.findOne({ _id: id });
-
-//     if (!user) {
-//       return res.status(404).send({ message: "User not found" });
-//     }
-
-//     // Add the product to the wishlist array
-//     user.whishList.push(product);
-//     let response = await user.save();
-
-//     if (response) {
-//       return res.status(200).send({ message: "Product added to wishlist" });
-//     } else {
-//       return res.status(500).send({ message: "Internal server error" });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).send({ message: "Error while adding product to wishlist" });
-//   }
-// };

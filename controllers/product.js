@@ -25,6 +25,8 @@ const addProduct = async (req, res) => {
   const popularity = req.body.popularity;
   const averageRating = req.body.averageRating;
   const additionalInformation = req.body.additionalInformation;
+  const tags = req.body.tags;
+  const life = req.body.life;
   const createdAt = new Date();
   const updatedAt = null;
   const deletedAt = null;
@@ -55,6 +57,8 @@ const addProduct = async (req, res) => {
     createdAt,
     updatedAt,
     deletedAt,
+    life,
+    tags,
     // isFavourite,
   });
   try {
@@ -135,6 +139,10 @@ const updateProduct = async (req, res) => {
     averageRating: req.body.averageRating,
     additionalInformation: req.body.additionalInformation,
     updatedAt: new Date(),
+    life: req.body.life,
+    tag: req.body.tag,
+
+
   };
 
   try {
