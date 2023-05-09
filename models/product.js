@@ -24,10 +24,12 @@ const ProductSchema = new Schema({
   back: {
     type: String,
   },
-  category: {
-    type: mongoose.Schema.Types.Object,
-    ref: "Category",
-  },
+  category: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
+  ],
   quantity: {
     type: Number,
     required: true,

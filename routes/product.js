@@ -15,8 +15,4 @@ router.get("/:categoryId", productController.getCategories);
 router.get("/brands/:categoryId", productController.getBrandsName);
 router.get("/", productController.pagePagination);
 
-// router.get(
-//   "/categoryId/:categoryId/subcategory/:subCategoryId",
-//   productController.getSubCatergory
-// );
 module.exports = router;

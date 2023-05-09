@@ -70,32 +70,31 @@ const addProduct = async (req, res) => {
   }
 };
 
-//get All Product
-const getAllProduct = async (req, res) => {
-  try {
-    let products = await Product.find();
-    //products = products.sort((a, b) => b.createdAt - a.createdAt);
-    if (products) {
-      return res.json(products);
-    } else {
-      return res
-        .status(404)
-        .send({ message: "Error occured when retrieving products" });
-    }
-  } catch (err) {
-    console.log(err);
-    return res.status(500).send({ message: "Internal server error" });
-  }
-};
+// //get All Product
+// const getAllProduct = async (req, res) => {
+//   try {
+//     let products = await Product.find();
+//     //products = products.sort((a, b) => b.createdAt - a.createdAt);
+//     if (products) {
+//       return res.json(products);
+//     } else {
+//       return res
+//         .status(404)
+//         .send({ message: "Error occured when retrieving products" });
+//     }
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(500).send({ message: "Internal server error" });
+//   }
+// };
 
 //get product by id
 const getProductById = async (req, res) => {
   const productId = req.params.id;
-  //console.log("data", productId);
 
   try {
     let response = await Product.findById(productId);
-    // console.log("response", response);
+
     if (response) {
       return res.json(response);
     } else {
@@ -116,7 +115,6 @@ const updateProduct = async (req, res) => {
     title: product.title,
     brand: req.body.brand,
     description: req.body.description,
-    //image: req.body.image,
     front: req.body.front,
     back: req.body.back,
     side: req.body.side,
@@ -155,7 +153,6 @@ const deleteUpdate = async (req, res) => {
   const Id = req.params.id;
   let updateDeleteDate = await Product.findById(Id);
   updateDeleteDate.deletedAt = new Date();
-  // return await response.save();
   try {
     let response = await updateDeleteDate.save();
     if (response) {
@@ -191,7 +188,6 @@ const deleteProduct = async (req, res) => {
 async function searchProducts(query) {
   try {
     const regex = new RegExp(query, "i");
-    //console.log("regex ", regex);
     const searchResult = await Product.find({
       $or: [
         { title: regex },
@@ -200,7 +196,6 @@ async function searchProducts(query) {
         { type: regex },
       ],
     });
-    //console.log("searchResult ", searchResult);
     return searchResult;
   } catch (error) {
     console.error(error);
@@ -211,9 +206,7 @@ async function searchProducts(query) {
 const search = async (req, res) => {
   try {
     const query = req.query.q;
-    //console.log("query ", query);
     const results = await searchProducts(query);
-    //console.log("results ", results);
     res.json(results);
   } catch (error) {
     console.error(error);
@@ -249,20 +242,16 @@ const getBrandsName = async (req, res) => {
 
 const pagePagination = async (req, res) => {
   try {
-    // Default to page 1 and 10 items per page
     const { page = 1, perpage = 12 } = req.query;
     const skip = (page - 1) * perpage;
 
-    // Fetch products based on pagination settings
     const products = await Product.find()
       .skip(skip)
       .limit(parseInt(perpage))
       .exec();
 
-    // Get the total count of products in the database
     const count = await Product.countDocuments();
 
-    // Construct the pagination response object
     const response = {
       products,
       currentPage: parseInt(page),
@@ -270,8 +259,40 @@ const pagePagination = async (req, res) => {
       totalItems: count,
     };
 
-    // Send the response to the client
     res.json(response);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const getAllProduct = async (req, res) => {
+  try {
+    const { sort } = req.query;
+    let products = await Product.find();
+
+    switch (sort) {
+      case "popularity":
+        products = products.sort((a, b) => b.popularity - a.popularity);
+        break;
+      case "averageRating":
+        products = products.sort((a, b) => b.averageRating - a.averageRating);
+        break;
+      case "latest":
+        products = products.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        break;
+      case "priceLowToHigh":
+        products = products.sort((a, b) => a.price - b.price);
+        break;
+      case "priceHighToLow":
+        products = products.sort((a, b) => b.price - a.price);
+        break;
+      default:
+        break;
+    }
+    res.json(products);
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
@@ -289,6 +310,4 @@ module.exports = {
   getCategories,
   getBrandsName,
   pagePagination,
-  //getSubCatergory,
-  // getproductByfilter,
 };
