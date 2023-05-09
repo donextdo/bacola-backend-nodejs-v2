@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { request } = require("express");
 const User = require("../models/user");
+const Product = require("../models/product");
 const auth = require("../middlewares/jwt");
 
 //register new user
@@ -240,6 +241,33 @@ const getOneUserByEmail = async (req, res) => {
     return res.status(500).send({ message: "Internal server error" });
   }
 };
+
+const addWishList = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    const products = req.body.products;
+
+    const productList = products.map((p) => ({
+      productId: p.productId,
+      date: p.date,
+      front: p.front,
+      title: p.title,
+      price: p.price,
+      quantity: p.quantity,
+    }));
+
+    user.whishList.push(...productList);
+
+    await user.save();
+
+    res.status(200).json({ message: "Products added to wishlist" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -249,5 +277,6 @@ module.exports = {
   updateUser,
   updateWishList ,
   getOneUserByEmail,
+  addWishList,
 };
 
