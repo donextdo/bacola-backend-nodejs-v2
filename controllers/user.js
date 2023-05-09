@@ -63,7 +63,7 @@ const login = async (req, res) => {
         return res.status(200).send({ ...user.toJSON(), token });
       } else {
         return res.status(400).send({
-          message: "Such user does not exist check your credentials ",
+          message: "Incorrect password for the provided email or username ",
         });
       }
     } else {
@@ -71,10 +71,40 @@ const login = async (req, res) => {
     }
   } catch (err) {
     return res
-      .status(400)
+      .status(500)
       .send({ message: "Such user does not exist check your credentials" });
   }
 };
+
+// const login = async (req, res) => {
+//   const usernameoremail = req.body.usernameoremail;
+//   const password = req.body.password;
+
+//   try {
+//     const user = await User.findOne({
+//       $or: [{ email: usernameoremail }, { userName: usernameoremail }],
+//     });
+
+//     if (user) {
+//       if (bcrypt.compareSync(password, user.password)) {
+//         const token = auth.generateAccessToken(user.email);
+//         return res.status(200).send({ ...user.toJSON(), token });
+//       } else {
+//         return res.status(400).send({
+//           message: "Incorrect password for the provided email or username",
+//         });
+//       }
+//     } else {
+//       return res.status(404).send({ message: "Invalid email or username" });
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).send({
+//       message:
+//         "An error occurred while trying to log in. Please try again later.",
+//     });
+//   }
+// };
 
 const getAllUsers = async (req, res) => {
   try {

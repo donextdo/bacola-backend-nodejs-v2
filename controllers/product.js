@@ -275,18 +275,18 @@ const getAllProduct = async (req, res) => {
       case "popularity":
         products = products.sort((a, b) => b.popularity - a.popularity);
         break;
-      case "averageRating":
+      case "rating":
         products = products.sort((a, b) => b.averageRating - a.averageRating);
         break;
-      case "latest":
+      case "date":
         products = products.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         break;
-      case "priceLowToHigh":
+      case "price":
         products = products.sort((a, b) => a.price - b.price);
         break;
-      case "priceHighToLow":
+      case "price-desc":
         products = products.sort((a, b) => b.price - a.price);
         break;
       default:
