@@ -64,3 +64,6 @@ app.use("/api/categories", category);
 
 let coupon = require("./routes/coupon");
 app.use("/api/coupons", coupon);
+
+let location = require("./routes/location");
+app.use("/api/locations", location);

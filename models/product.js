@@ -77,6 +77,8 @@ const ProductSchema = new Schema({
 
   additionalInformation: [],
 
+  tags: [],
+
   updatedAt: {
     type: Date,
     default: null,
@@ -89,6 +91,10 @@ const ProductSchema = new Schema({
     type: Date,
     default: null,
   },
+  life: {
+    type: String,
+  },
+
 });
 
 const Product = mongoose.model("product", ProductSchema);
