@@ -70,23 +70,23 @@ const addProduct = async (req, res) => {
   }
 };
 
-// //get All Product
-// const getAllProduct = async (req, res) => {
-//   try {
-//     let products = await Product.find();
-//     //products = products.sort((a, b) => b.createdAt - a.createdAt);
-//     if (products) {
-//       return res.json(products);
-//     } else {
-//       return res
-//         .status(404)
-//         .send({ message: "Error occured when retrieving products" });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(500).send({ message: "Internal server error" });
-//   }
-// };
+//get All Product
+const getAllProduct = async (req, res) => {
+  try {
+    let products = await Product.find();
+    //products = products.sort((a, b) => b.createdAt - a.createdAt);
+    if (products) {
+      return res.json(products);
+    } else {
+      return res
+        .status(404)
+        .send({ message: "Error occured when retrieving products" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: "Internal server error" });
+  }
+};
 
 //get product by id
 const getProductById = async (req, res) => {
@@ -240,36 +240,70 @@ const getBrandsName = async (req, res) => {
   }
 };
 
+// const pagePagination = async (req, res) => {
+//   try {
+//     const { page = 1, perpage = 12 } = req.query;
+//     const skip = (page - 1) * perpage;
+
+//     const products = await Product.find()
+//       .skip(skip)
+//       .limit(parseInt(perpage))
+//       .exec();
+
+//     const count = await Product.countDocuments();
+
+//     const response = {
+//       products,
+//       currentPage: parseInt(page),
+//       totalPages: Math.ceil(count / perpage),
+//       totalItems: count,
+//     };
+
+//     res.json(response);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
+// const getAllProduct = async (req, res) => {
+//   try {
+//     const { sort } = req.query;
+//     let products = await Product.find();
+
+//     switch (sort) {
+//       case "popularity":
+//         products = products.sort((a, b) => b.popularity - a.popularity);
+//         break;
+//       case "rating":
+//         products = products.sort((a, b) => b.averageRating - a.averageRating);
+//         break;
+//       case "date":
+//         products = products.sort(
+//           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+//         );
+//         break;
+//       case "price":
+//         products = products.sort((a, b) => a.price - b.price);
+//         break;
+//       case "price-desc":
+//         products = products.sort((a, b) => b.price - a.price);
+//         break;
+//       default:
+//         break;
+//     }
+//     res.json(products);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
 const pagePagination = async (req, res) => {
   try {
-    const { page = 1, perpage = 12 } = req.query;
+    const { sort, page, perpage } = req.query;
     const skip = (page - 1) * perpage;
-
-    const products = await Product.find()
-      .skip(skip)
-      .limit(parseInt(perpage))
-      .exec();
-
-    const count = await Product.countDocuments();
-
-    const response = {
-      products,
-      currentPage: parseInt(page),
-      totalPages: Math.ceil(count / perpage),
-      totalItems: count,
-    };
-
-    res.json(response);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
-  }
-};
-
-const getAllProduct = async (req, res) => {
-  try {
-    const { sort } = req.query;
-    let products = await Product.find();
+    let products = await Product.find().skip(skip).limit(parseInt(perpage));
 
     switch (sort) {
       case "popularity":
@@ -292,7 +326,14 @@ const getAllProduct = async (req, res) => {
       default:
         break;
     }
-    res.json(products);
+    const count = await Product.countDocuments();
+    const response = {
+      products,
+      currentPage: parseInt(page),
+      totalPages: Math.ceil(count / perpage),
+      totalItems: count,
+    };
+    res.json(response);
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
