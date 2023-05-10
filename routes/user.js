@@ -10,8 +10,7 @@ router.get("/", userController.getAllUsers);
 router.get("/:id", userController.getOneUser);
 router.patch("/:id/:pwd", userController.updateUserPassword);
 router.patch("/:id", userController.updateUser);
-router.put("/wishList/:id", userController.updateWishList);
 router.get("/getUser/:usernameOrEmail", userController.getOneUserByEmail);
-router.post("/:id/wishlist", userController.addWishList);
+router.post("/wishList/:id", userController.addWishList);
 
 module.exports = router;
