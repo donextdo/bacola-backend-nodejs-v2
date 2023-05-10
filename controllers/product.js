@@ -309,7 +309,7 @@ const getBrandsName = async (req, res) => {
 
 const pagePagination = async (req, res) => {
   try {
-    const { sort, page, perpage } = req.query;
+    const { sort, page = 1, perpage = 12 } = req.query;
     const skip = (page - 1) * perpage;
     let products = await Product.find().skip(skip).limit(parseInt(perpage));
 

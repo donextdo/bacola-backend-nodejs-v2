@@ -11,9 +11,6 @@ const getproductByfilter = async (req, res) => {
     const subCategories = req.query.subCategories;
     const brands = req.query.brands;
 
-    console.log("categoryId : ", categoryId);
-    console.log("subCategories : ", subCategories);
-    console.log("brands : ", brands);
     // Create an array of subcategories
     const subCatArr =
       typeof subCategories === "string" ? subCategories.split(",") : [];
