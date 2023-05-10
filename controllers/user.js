@@ -211,49 +211,6 @@ const updateUser = async (req, res) => {
   }
 };
 
-const updateWishList = async (req, res) => {
-  const id = req.params.id;
-  const user = await User.findOne({ _id: id });
-  const userName = user.userName;
-  const password = user.password;
-  const email = user.email;
-  const firstName = user.firstName;
-  const lastName = user.lastName;
-  const companyName = user.companyName;
-  const displayName = user.displayName;
-  const billingAddress = user.billingAddress;
-  const shippingAddress = user.shippingAddress;
-
-  const updateUser = {
-    id: req.params.id,
-    userName: userName,
-    email: email,
-    password: password,
-    whishList: req.body.whishList,
-    firstName: firstName,
-    lastName: lastName,
-    companyName: companyName,
-    displayName: displayName,
-    billingAddress: billingAddress,
-    shippingAddress: shippingAddress,
-  };
-
-  try {
-    const response = await User.findOneAndUpdate({ _id: id }, updateUser);
-    if (response) {
-      return res
-        .status(200)
-        .send({ message: "Successfully updated favourite Details" });
-    } else {
-      return res.status(500).send({ message: "Internal server error" });
-    }
-  } catch (err) {
-    return res
-      .status(400)
-      .send({ message: "Unable to update recheck your details" });
-  }
-};
-
 const getOneUserByEmail = async (req, res) => {
   const { usernameOrEmail } = req.params;
   try {
@@ -275,8 +232,8 @@ const getOneUserByEmail = async (req, res) => {
 const addWishList = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-
-    const products = req.body.products;
+    console.log("user", user);
+    const products = req.body.whishList;
 
     const productList = products.map((p) => ({
       productId: p.productId,
@@ -305,7 +262,6 @@ module.exports = {
   getOneUser,
   updateUserPassword,
   updateUser,
-  updateWishList ,
   getOneUserByEmail,
   addWishList,
 };
