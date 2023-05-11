@@ -24,7 +24,7 @@ const CouponSchema = new Schema({
   },
 
   dicount_amount: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
