@@ -12,5 +12,6 @@ router.patch("/:id/:pwd", userController.updateUserPassword);
 router.patch("/:id", userController.updateUser);
 router.get("/getUser/:usernameOrEmail", userController.getOneUserByEmail);
 router.post("/wishList/:id", userController.addWishList);
+router.delete("/:id/wishList/:productId", userController.deleteFromWishList);
 
 module.exports = router;
