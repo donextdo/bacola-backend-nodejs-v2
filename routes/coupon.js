@@ -6,7 +6,7 @@ let couponController = require("../controllers/coupon");
 
 router.post("/insert", couponController.addCoupon);
 router.get("/getAll/", couponController.getAllCoupen);
-router.get("/getOne/:id", couponController.getCouponById);
+router.get("/getOne/:coupon_code", couponController.getCouponById);
 router.put("/:id", couponController.updateCoupen);
 router.delete("/:id", couponController.deleteCoupen);
 

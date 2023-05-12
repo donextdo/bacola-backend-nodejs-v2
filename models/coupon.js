@@ -11,6 +11,7 @@ const CouponSchema = new Schema({
   coupon_code: {
     type: String,
     required: true,
+    unique: true,
   },
 
   date: {
@@ -23,7 +24,7 @@ const CouponSchema = new Schema({
   },
 
   dicount_amount: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
