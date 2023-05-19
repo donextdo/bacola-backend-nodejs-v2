@@ -255,6 +255,24 @@ const addWishList = async (req, res) => {
   }
 };
 
+const deleteFromWishList = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    // Remove the product from the wishlist array
+    user.whishList = user.whishList.filter(
+      (product) => product.productId !== req.params.productId
+    );
+
+    await user.save();
+
+    res.status(200).json({ message: "Product removed from wishlist" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -264,5 +282,6 @@ module.exports = {
   updateUser,
   getOneUserByEmail,
   addWishList,
+  deleteFromWishList,
 };
 

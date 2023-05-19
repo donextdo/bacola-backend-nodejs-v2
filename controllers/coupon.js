@@ -43,11 +43,11 @@ const getAllCoupen = async (req, res) => {
 };
 
 const getCouponById = async (req, res) => {
-  const coupenId = req.params.id;
+  const coupon_code = req.params.coupon_code;
   //console.log("data", coupenId);
 
   try {
-    let response = await Coupon.findOne({ id: coupenId });
+    let response = await Coupon.findOne({ coupon_code: coupon_code });
     // console.log("response", response);
     if (response) {
       return res.json(response);

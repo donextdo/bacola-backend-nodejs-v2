@@ -2,15 +2,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const CouponSchema = new Schema({
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-
+  
   coupon_code: {
     type: String,
     required: true,
+    unique: true,
   },
 
   date: {
@@ -23,7 +19,7 @@ const CouponSchema = new Schema({
   },
 
   dicount_amount: {
-    type: String,
+    type: Number,
     required: true,
   },
 });

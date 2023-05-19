@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const { request } = require("express");
+const socketIOClient = require("socket.io-client");
 // const axios = require("axios");
 
 //insert product
@@ -30,13 +31,12 @@ const addProduct = async (req, res) => {
   const createdAt = new Date();
   const updatedAt = null;
   const deletedAt = null;
-  //const isFavourite = req.body.isFavourite;
 
   const product = new Product({
     title,
     brand,
     description,
-    //image,
+
     front,
     back,
     side,
@@ -78,7 +78,6 @@ const addProduct = async (req, res) => {
 const getAllProduct = async (req, res) => {
   try {
     let products = await Product.find();
-    //products = products.sort((a, b) => b.createdAt - a.createdAt);
     if (products) {
       return res.json(products);
     } else {
@@ -192,7 +191,7 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-//search by product name
+// search by product name
 async function searchProducts(query) {
   try {
     const regex = new RegExp(query, "i");
@@ -222,6 +221,27 @@ const search = async (req, res) => {
   }
 };
 
+const searchBySocket = async (req, res) => {
+  const { query } = req.body;
+
+  // Create a Socket.io client
+  const socket = socketIOClient("http://localhost:4000");
+
+  // Socket.io event listener for search results
+  socket.on("searchResults", (results) => {
+    console.log("Received search results:", results);
+
+    // Send the search results back to the client
+    res.status(200).json(results);
+
+    // Disconnect the Socket.io client
+    socket.disconnect();
+  });
+
+  // Send the search query to the server
+  socket.emit("search", query);
+};
+
 const getCategories = async (req, res) => {
   try {
     const products = await Product.find({ category: req.params.categoryId })
@@ -247,65 +267,6 @@ const getBrandsName = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-// const pagePagination = async (req, res) => {
-//   try {
-//     const { page = 1, perpage = 12 } = req.query;
-//     const skip = (page - 1) * perpage;
-
-//     const products = await Product.find()
-//       .skip(skip)
-//       .limit(parseInt(perpage))
-//       .exec();
-
-//     const count = await Product.countDocuments();
-
-//     const response = {
-//       products,
-//       currentPage: parseInt(page),
-//       totalPages: Math.ceil(count / perpage),
-//       totalItems: count,
-//     };
-
-//     res.json(response);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
-// const getAllProduct = async (req, res) => {
-//   try {
-//     const { sort } = req.query;
-//     let products = await Product.find();
-
-//     switch (sort) {
-//       case "popularity":
-//         products = products.sort((a, b) => b.popularity - a.popularity);
-//         break;
-//       case "rating":
-//         products = products.sort((a, b) => b.averageRating - a.averageRating);
-//         break;
-//       case "date":
-//         products = products.sort(
-//           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-//         );
-//         break;
-//       case "price":
-//         products = products.sort((a, b) => a.price - b.price);
-//         break;
-//       case "price-desc":
-//         products = products.sort((a, b) => b.price - a.price);
-//         break;
-//       default:
-//         break;
-//     }
-//     res.json(products);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
 
 const pagePagination = async (req, res) => {
   try {
@@ -359,4 +320,5 @@ module.exports = {
   getCategories,
   getBrandsName,
   pagePagination,
+  searchBySocket,
 };
