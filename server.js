@@ -6,7 +6,7 @@ const app = express();
 const unless = require("express-unless");
 const auth = require("./middlewares/jwt");
 const http = require("http");
-const socketIo = require("socket.io");
+// const socketIo = require("socket.io");
 const axios = require("axios");
 
 const port = process.env.PORT || 4000;
@@ -73,7 +73,7 @@ const Product = require("./models/product");
 app.use("/api/locations", location);
 
 const server = http.createServer(app);
-const io = socketIo(server);
+// const io = socketIo(server);
 
 async function searchProducts(query) {
   try {
@@ -96,24 +96,24 @@ async function searchProducts(query) {
     return [];
   }
 }
-io.on("connection", (socket) => {
-  console.log("A client connected.");
+// io.on("connection", (socket) => {
+//   console.log("A client connected.");
 
-  // Socket.io event listener for search requests
-  socket.on("search", async (query) => {
-    console.log(`Received search query: ${query}`);
+//   // Socket.io event listener for search requests
+//   socket.on("search", async (query) => {
+//     console.log(`Received search query: ${query}`);
 
-    const results = await searchProducts(query);
+//     const results = await searchProducts(query);
 
-    // Send the search results back to the client
-    socket.emit("searchResults", results);
-  });
+//     // Send the search results back to the client
+//     socket.emit("searchResults", results);
+//   });
 
-  // Socket.io event listener for client disconnections
-  socket.on("disconnect", () => {
-    console.log("A client disconnected.");
-  });
-});
+//   // Socket.io event listener for client disconnections
+//   socket.on("disconnect", () => {
+//     console.log("A client disconnected.");
+//   });
+// });
 
 server.listen(port, () => {
   console.log(`Server listening on port ${port}.`);
