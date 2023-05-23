@@ -73,10 +73,24 @@ const getParent = async (req, res) => {
   }
 };
 
+const getCatergoryName = async (req, res) => {
+  const ID = req.params.id;
+  try {
+    let response = await Category.find({ _id: ID }).select("name");
+    if (response) {
+      console.log("name", response);
+      return res.json(response);
+    }
+  } catch (err) {
+    return res.status(500).send({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   //categoryInsert,
   insertCategory,
   getSubCatergoryById,
   getParentCatergoryById,
   getParent,
+  getCatergoryName,
 };
