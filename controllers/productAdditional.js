@@ -11,6 +11,8 @@ const getproductByfilter = async (req, res) => {
     const brands = req.query.brands;
     const minPrice = parseFloat(req.query.min_price);
     const maxPrice = parseFloat(req.query.max_price);
+    const inStock = req.query.stock_status;
+    const onSale = req.query.on_sale;
 
     const subCatArr =
       typeof subCategories === "string" ? subCategories.split(",") : [];
@@ -34,8 +36,17 @@ const getproductByfilter = async (req, res) => {
       );
     }
 
+    if (inStock === "true") {
+      products = products.filter((product) => product.inStock === true);
+    }
+
+    if (onSale === "true") {
+      products = products.filter((product) => product.onSale === true);
+    }
+
     res.status(200).json(products);
   } catch (error) {
+    console.log("error : ", error);
     res.status(500).json({ message: "Server Error" });
   }
 };

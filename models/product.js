@@ -76,6 +76,13 @@ const ProductSchema = new Schema({
   averageRating: {},
 
   additionalInformation: [],
+  inStock: {
+    type: Boolean,
+  },
+
+  onSale: {
+    type: Boolean,
+  },
 
   updatedAt: {
     type: Date,
