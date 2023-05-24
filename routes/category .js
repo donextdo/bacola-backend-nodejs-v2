@@ -8,4 +8,5 @@ router.post("/insert", catergoryController.insertCategory);
 router.get("/:id", catergoryController.getSubCatergoryById);
 router.get("/get/:id", catergoryController.getParentCatergoryById);
 router.get("/", catergoryController.getParent);
+router.get("/name/:id", catergoryController.getCatergoryName);
 module.exports = router;
