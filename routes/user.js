@@ -9,7 +9,6 @@ router.post("/login", userController.login);
 router.get("/", userController.getAllUsers);
 router.get("/:id", userController.getOneUser);
 router.get("/verify/:token", userController.getVerifyEmail);
-
 router.patch("/:id/:pwd", userController.updateUserPassword);
 router.patch("/:id", userController.updateUser);
 router.get("/getUser/:usernameOrEmail", userController.getOneUserByEmail);
