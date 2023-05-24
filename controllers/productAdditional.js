@@ -86,6 +86,19 @@ const getproductByfilter = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+const BrandsName = async (req, res) => {
+  try {
+    const brandCounts = await Product.aggregate([
+      { $group: { _id: "$brand", count: { $sum: 1 } } },
+      { $project: { brand: "$_id", count: 1, _id: 0 } },
+    ]);
+
+    res.json(brandCounts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
 // const getproductByfilter = async (req, res) => {
 //   const baseUrl = "http://localhost:4000/api";
 
@@ -137,4 +150,5 @@ const getproductByfilter = async (req, res) => {
 
 module.exports = {
   getproductByfilter,
+  BrandsName,
 };

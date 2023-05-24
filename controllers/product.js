@@ -260,11 +260,84 @@ const getBrandsName = async (req, res) => {
   }
 };
 
+// const pagePagination = async (req, res) => {
+//   try {
+//     const { sort, page = 1, perpage = 12 } = req.query;
+//     const skip = (page - 1) * perpage;
+//     let products = await Product.find().skip(skip).limit(parseInt(perpage));
+
+//     switch (sort) {
+//       case "popularity":
+//         products = products.sort((a, b) => b.popularity - a.popularity);
+//         break;
+//       case "rating":
+//         products = products.sort((a, b) => b.averageRating - a.averageRating);
+//         break;
+//       case "date":
+//         products = products.sort(
+//           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+//         );
+//         break;
+//       case "price":
+//         products = products.sort((a, b) => a.price - b.price);
+//         break;
+//       case "price-desc":
+//         products = products.sort((a, b) => b.price - a.price);
+//         break;
+//       default:
+//         break;
+//     }
+//     const count = await Product.countDocuments();
+//     const response = {
+//       products,
+//       currentPage: parseInt(page),
+//       totalPages: Math.ceil(count / perpage),
+//       totalItems: count,
+//     };
+//     res.json(response);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
 const pagePagination = async (req, res) => {
   try {
-    const { sort, page = 1, perpage = 12 } = req.query;
+    const {
+      page = 1,
+      perpage = 12,
+      brands,
+      min_price,
+      max_price,
+      stock_status,
+      on_sale,
+      sort,
+    } = req.query;
+
+    const brandArr = typeof brands === "string" ? brands.split(",") : [];
+
     const skip = (page - 1) * perpage;
     let products = await Product.find().skip(skip).limit(parseInt(perpage));
+
+    if (brandArr.length > 0) {
+      products = products.filter((product) => brandArr.includes(product.brand));
+    }
+
+    if (!isNaN(parseFloat(min_price)) && !isNaN(parseFloat(max_price))) {
+      products = products.filter(
+        (product) =>
+          product.price >= parseFloat(min_price) &&
+          product.price <= parseFloat(max_price)
+      );
+    }
+
+    if (stock_status === "true") {
+      products = products.filter((product) => product.inStock === true);
+    }
+
+    if (on_sale === "true") {
+      products = products.filter((product) => product.onSale === true);
+    }
 
     switch (sort) {
       case "popularity":
@@ -287,6 +360,7 @@ const pagePagination = async (req, res) => {
       default:
         break;
     }
+
     const count = await Product.countDocuments();
     const response = {
       products,
@@ -294,10 +368,11 @@ const pagePagination = async (req, res) => {
       totalPages: Math.ceil(count / perpage),
       totalItems: count,
     };
+
     res.json(response);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
+  } catch (error) {
+    console.log("error: ", error);
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
