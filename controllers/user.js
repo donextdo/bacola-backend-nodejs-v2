@@ -1,5 +1,3 @@
-const ejs = require('ejs')
-const fs = require('fs');
 
 const bcrypt = require("bcryptjs");
 const { request } = require("express");
