@@ -9,7 +9,7 @@ const http = require("http");
 // const socketIo = require("socket.io");
 const axios = require("axios");
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 const URL = process.env.MONGO_URI;
 
 app.use(express.urlencoded({ extended: false }));

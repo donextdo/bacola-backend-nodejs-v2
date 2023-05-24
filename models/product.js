@@ -76,6 +76,13 @@ const ProductSchema = new Schema({
   averageRating: {},
 
   additionalInformation: [],
+  inStock: {
+    type: Boolean,
+  },
+
+  onSale: {
+    type: Boolean,
+  },
 
   tags: [],
 
@@ -94,7 +101,9 @@ const ProductSchema = new Schema({
   life: {
     type: String,
   },
-
+  speacialtag: {
+    type: String,
+  },
 });
 
 const Product = mongoose.model("product", ProductSchema);
