@@ -14,8 +14,8 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 
 
-const verifyEmailTemplatePath = path.resolve(__dirname, '../utils/verifyemail.ejs');
-const verifyEmailTemplate = fs.readFileSync(verifyEmailTemplatePath, 'utf-8');
+// const verifyEmailTemplatePath = path.resolve(__dirname, '../utils/verifyemail.ejs');
+// const verifyEmailTemplate = fs.readFileSync(verifyEmailTemplatePath, 'utf-8');
 
 //register new user
 const register = async (req, res) => {
