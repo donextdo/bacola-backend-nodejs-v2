@@ -461,7 +461,7 @@ module.exports = {
   getOneUserByEmail,
   addWishList,
   deleteFromWishList,
-  verifyEmail,
+  // verifyEmail,
   getVerifyEmail
 };
 
