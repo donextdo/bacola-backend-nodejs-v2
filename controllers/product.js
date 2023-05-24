@@ -28,6 +28,7 @@ const addProduct = async (req, res) => {
   const additionalInformation = req.body.additionalInformation;
   const tags = req.body.tags;
   const life = req.body.life;
+  const speacialtag = req.body.speacialtag;
   const createdAt = new Date();
   const updatedAt = null;
   const deletedAt = null;
@@ -59,6 +60,7 @@ const addProduct = async (req, res) => {
     deletedAt,
     life,
     tags,
+    speacialtag,
     // isFavourite,
   });
   try {

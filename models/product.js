@@ -94,7 +94,9 @@ const ProductSchema = new Schema({
   life: {
     type: String,
   },
-
+  speacialtag: {
+    type: String,
+  },
 });
 
 const Product = mongoose.model("product", ProductSchema);
