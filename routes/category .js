@@ -9,4 +9,5 @@ router.get("/:id", catergoryController.getSubCatergoryById);
 router.get("/get/:id", catergoryController.getParentCatergoryById);
 router.get("/", catergoryController.getParent);
 router.get("/name/:id", catergoryController.getCatergoryName);
+router.get("/catname/:name", catergoryController.getCatergoryIDbyName);
 module.exports = router;
