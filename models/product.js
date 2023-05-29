@@ -24,6 +24,7 @@ const ProductSchema = new Schema({
   back: {
     type: String,
   },
+  imageArray: [],
   category: [
     {
       type: mongoose.Schema.Types.ObjectId,

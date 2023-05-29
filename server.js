@@ -78,7 +78,7 @@ const io = socketIo(server);
 async function searchProducts(query) {
   try {
     const response = await axios.get(
-      "http://localhost:4000/api/products/getAll"
+      "http://localhost:3000/api/products/getAll"
     );
     const products = response.data;
     //console.log("response , ", response);

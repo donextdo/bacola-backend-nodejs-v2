@@ -6,12 +6,14 @@ const insertCategory = async (req, res) => {
   const slug = req.body.slug;
   const parentId = req.body.parentId;
   const subcategories = req.body.subcategories;
+  const isFooterMenu = req.body.isFooterMenu;
 
   const newCategory = new Category({
     name,
     slug,
     parentId,
     subcategories,
+    isFooterMenu,
   });
 
   try {
