@@ -1,7 +1,7 @@
 const Product = require("../models/product");
 const { request } = require("express");
-// const socketIOClient = require("socket.io-client");
-// const axios = require("axios");
+const socketIOClient = require("socket.io-client");
+const axios = require("axios");
 
 //insert product
 const addProduct = async (req, res) => {
@@ -140,8 +140,6 @@ const updateProduct = async (req, res) => {
     updatedAt: new Date(),
     life: req.body.life,
     tag: req.body.tag,
-
-
   };
 
   try {
@@ -223,26 +221,26 @@ const search = async (req, res) => {
   }
 };
 
-// const searchBySocket = async (req, res) => {
-//   const { query } = req.body;
+const searchBySocket = async (req, res) => {
+  const { query } = req.body;
 
-//   // Create a Socket.io client
-//   const socket = socketIOClient("http://localhost:4000");
+  // Create a Socket.io client
+  const socket = socketIOClient("http://localhost:3000");
 
-//   // Socket.io event listener for search results
-//   socket.on("searchResults", (results) => {
-//     console.log("Received search results:", results);
+  // Socket.io event listener for search results
+  socket.on("searchResults", (results) => {
+    console.log("Received search results:", results);
 
-//     // Send the search results back to the client
-//     res.status(200).json(results);
+    // Send the search results back to the client
+    res.status(200).json(results);
 
-//     // Disconnect the Socket.io client
-//     socket.disconnect();
-//   });
+    // Disconnect the Socket.io client
+    socket.disconnect();
+  });
 
-//   // Send the search query to the server
-//   socket.emit("search", query);
-// };
+  // Send the search query to the server
+  socket.emit("search", query);
+};
 
 const getCategories = async (req, res) => {
   try {
@@ -397,5 +395,5 @@ module.exports = {
   getCategories,
   getBrandsName,
   pagePagination,
-  // searchBySocket,
+  searchBySocket,
 };

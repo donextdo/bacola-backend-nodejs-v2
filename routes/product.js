@@ -11,7 +11,7 @@ router.put("/:id", productController.updateProduct);
 router.delete("/:id", productController.deleteProduct);
 router.post("/deletSave/:id", productController.deleteUpdate);
 router.post("/search", productController.search);
-// router.post("/searchBySocket", productController.searchBySocket);
+router.post("/searchBySocket", productController.searchBySocket);
 router.get("/:categoryId", productController.getCategories);
 router.get("/brands/:categoryId", productController.getBrandsName);
 router.get("/", productController.pagePagination);
