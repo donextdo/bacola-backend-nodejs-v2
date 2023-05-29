@@ -10,9 +10,7 @@ const sendEmail = require("../utils/sendEmails");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-
-// const verifyEmailTemplatePath = path.resolve(__dirname, '../utils/verifyemail.ejs');
-// const verifyEmailTemplate = fs.readFileSync(verifyEmailTemplatePath, 'utf-8');
+const rateLimit = require("express-rate-limit");
 
 //register new user
 const register = async (req, res) => {
@@ -43,227 +41,85 @@ const register = async (req, res) => {
 
   try {
     const userExists = await User.findOne({ email });
-    // if (userExists) {
-    //   res.status(400).send({ message: "User Already Exists" });
-    // } else {
-    // let response = await user.save();
-    sendEmailVerification(email);
-    // if (response) {
-    //verify email link send
+    if (userExists) {
+      res.status(400).send({ message: "User Already Exists" });
+    } else {
+      let response = await user.save();
 
-    //call the verify endpoint
+      if (response) {
+        // verify email link send
+        sendEmailVerification(email);
+        // call the verify endpoint
 
-    //   return res.status(201).send({ message: "New User registered" });
-    // } else {
-    //   return res.status(500).send({ message: "Internal server error" });
-    // }
-    // }
+        res.status(200).json({
+          message:
+            "Sign-up successful. Please check your email for verification.",
+        });
+      } else {
+        res
+          .status(500)
+          .json({ message: "Sign-up failed. Please try again later." });
+      }
+    }
   } catch (err) {
     console.log(err);
     return res.status(400).send({ message: "Error while registering a user" });
   }
 };
 
-const VerifyEmailByUser = async (req, res) => {
-  try {
-    const { token } = req.query;
-
-    // Verify the token
-    jwt.verify(token, "YOUR_SECRET_KEY", async (err, decoded) => {
-      if (err) {
-        console.log(err);
-        return res.status(400).json({ error: "Invalid or expired token." });
-      }
-
-      const { email } = decoded;
-
-      // Update the user's email verification status in the database (e.g., MongoDB)
-      // Set the emailVerified field to true for the user with the given email
-
-      // Respond with a success message
-      return res
-        .status(200)
-        .json({ message: "Email verification successful." });
-    });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .json({ error: "An error occurred during email verification." });
-  }
-};
-
+//send email for the verification
 const sendEmailVerification = async (email) => {
-  const token = jwt.sign({ email }, "YOUR_SECRET_KEY", { expiresIn: "1h" });
+  const token = jwt.sign({ email }, process.env.SECRET_KEY, {
+    expiresIn: "1h",
+  });
   // const token = "token";
   const transporter = nodemailer.createTransport({
-    host: "mail.donext.org",
-    port: 587,
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
     secure: false,
     auth: {
-      user: "malisha@donext.org",
-      pass: "Malishha@123",
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD,
     },
     tls: {
       rejectUnauthorized: false,
     },
   });
-
+  const frontendBaseURL = process.env.FRONTEND_BASE_URL;
   console.log("verify the email: ", email);
   const verificationEmail = {
-    from: "malisha@donext.org",
-    to: "thisararpg@gmail.com",
+    from: process.env.EMAIL_FROM,
+    to: email,
     subject: "Email Verification",
     html: `
     <p>Please click the following link to verify your email:</p>
-    <a href="http://localhost:3000/api/users/verify?token=${token}">Verify Email</a>
+    <a href="http://localhost:3000/api/users/verify/${token}">Verify Email</a>
     `,
   };
+  console.log(`http://localhost:3000/api/users/verify/${token}`);
   console.log("verify the email: ", verificationEmail);
   try {
     await transporter.sendMail(verificationEmail);
   } catch (error) {
     console.log("error while sending the email: ", error);
   }
-
-  // Save the user details in the database (e.g., MongoDB)
-
-  // res.status(200).json({
-  //   message: "Signup successful. Please check your email for verification.",
-  // });
 };
 
-const registerr = async (req, res) => {
-  const userName = req.body.userName;
-  const email = req.body.email;
-  const pwd = req.body.password;
-  const whishList = req.body.whishList;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const companyName = req.body.companyName;
-  const billingAddress = req.body.billingAddress;
-  const shippingAddress = req.body.shippingAddress;
-
-  const salt = bcrypt.genSaltSync(10);
-  const password = bcrypt.hashSync(pwd, salt);
-
-  const user = new User({
-    userName,
-    email,
-    password,
-    whishList,
-    firstName,
-    lastName,
-    companyName,
-    billingAddress,
-    shippingAddress,
-  });
-
+//verify tocken and update user verify status
+const VerifyEmailByUser = async (req, res) => {
   try {
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      res.status(400).send({ message: "User Already Exists" });
-    } else {
-      // const verificationLink = `/email-verification/`
+    // Verify the token
+    const decodedToken = jwt.verify(req.params.token, process.env.SECRET_KEY);
+    console.log("decodedToken: ", decodedToken);
+    // Update the user's verification status in your database
+    const { email } = decodedToken;
+    await User.findOneAndUpdate({ email }, { isemailverify: true });
 
-      // const data = { verifyUrl: verificationLink };
-      // const renderedTemplate = ejs.render(verifyEmailTemplate, data);
-
-      // await sendEmail(
-      //   'Verify Your Account with Bloonsoo',
-      //   user.email,
-      //   renderedTemplate
-      // )
-
-      const token = jwt.sign({ email }, "YOUR_SECRET_KEY", { expiresIn: "1h" });
-
-      const transporter = nodemailer.createTransport({
-        host: "smtp.hostinger.com",
-        port: 587,
-        secure: false,
-        auth: {
-          user: "noreply@bloonsoo.com",
-          pass: "746)PjJfA%2nEns",
-        },
-      });
-
-      const verificationEmail = {
-        from: "noreply@bloonsoo.com",
-        to: email,
-        subject: "Email Verification",
-        html: `
-    <p>Please click the following link to verify your email:</p>
-    <a href="http://localhost:3000/api/users/verify?token=${token}">Verify Email</a>
-  `,
-      };
-
-      await transporter.sendMail(verificationEmail);
-
-      // Save the user details in the database (e.g., MongoDB)
-
-      res.status(200).json({
-        message: "Signup successful. Please check your email for verification.",
-      });
-
-      // let response = await user.save();
-
-      // if (response) {
-      //   return res.status(201).send({ message: "New User registered" });
-      // } else {
-      //   return res.status(500).send({ message: "Internal server error" });
-      // }
-    }
-  } catch (err) {
-    console.log(err);
-    return res.status(400).send({ message: "Error while registering a user" });
-  }
-};
-
-const verifyEmail = async (req, res, next) => {
-  try {
-    const token = req.body.token;
-    const verifyToken = await VerifyToken.findOne({
-      token,
-    });
-
-    if (!verifyToken) {
-      throw new NotFoundError(`INVALID_TOKEN`);
-    }
-
-    if (verifyToken.isCompleted) {
-      throw new ForbiddenError(`TOKEN_ALREADY_COMPLETED`);
-    }
-
-    await VerifyToken.findOneAndUpdate(
-      { token: token },
-      {
-        $set: {
-          isCompleted: true,
-        },
-      },
-      {
-        runValidators: true,
-      }
-    );
-
-    await User.findByIdAndUpdate(
-      verifyToken.user.toString(),
-      {
-        $set: {
-          isEmailVerified: true,
-        },
-      },
-      {
-        runValidators: true,
-      }
-    );
-
-    res.status(200).json({
-      success: true,
-      message: "EMAIL_VERIFIED_SUCCESSFULLY",
-    });
+    // Redirect the user to a success page
+    res.redirect(process.env.FRONTEND_BASE_URL);
   } catch (error) {
-    next(error);
+    console.error("Error during verification:", error);
+    res.redirect("/verification/error");
   }
 };
 
@@ -276,13 +132,17 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user) {
-      if (user && bcrypt.compareSync(password, user.password)) {
-        const token = auth.generateAccessToken(email);
-        return res.status(200).send({ ...user.toJSON(), token });
+      if (user.isemailverify == true) {
+        if (user && bcrypt.compareSync(password, user.password)) {
+          const token = auth.generateAccessToken(email);
+          return res.status(200).send({ ...user.toJSON(), token });
+        } else {
+          return res.status(400).send({
+            message: "Incorrect password for the provided email or username ",
+          });
+        }
       } else {
-        return res.status(400).send({
-          message: "Incorrect password for the provided email or username ",
-        });
+        return res.status(403).send({ message: "Please verify your email" });
       }
     } else {
       return res.status(404).send({ message: "Such user does not exist" });
@@ -523,6 +383,6 @@ module.exports = {
   getOneUserByEmail,
   addWishList,
   deleteFromWishList,
-  // verifyEmail,
+  VerifyEmailByUser,
   getVerifyEmail,
 };
