@@ -7,10 +7,11 @@ const addProduct = async (req, res) => {
   const title = req.body.title;
   const brand = req.body.brand;
   const description = req.body.description;
-  //const image = req.body.image;
+
   const front = req.body.front;
   const back = req.body.back;
   const side = req.body.side;
+  const imageArray = req.body.imageArray;
   const category = req.body.category;
   const quantity = req.body.quantity;
   const price = req.body.price;
@@ -36,10 +37,10 @@ const addProduct = async (req, res) => {
     title,
     brand,
     description,
-
     front,
     back,
     side,
+    imageArray,
     category,
     quantity,
     price,
@@ -122,6 +123,7 @@ const updateProduct = async (req, res) => {
     front: req.body.front,
     back: req.body.back,
     side: req.body.side,
+    imageArray: req.body.imageArray,
     category: req.body.category,
     quantity: req.body.quantity,
     price: req.body.price,
