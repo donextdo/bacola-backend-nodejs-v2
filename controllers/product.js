@@ -1,7 +1,6 @@
 const Product = require("../models/product");
 const { request } = require("express");
 const socketIOClient = require("socket.io-client");
-const axios = require("axios");
 
 //insert product
 const addProduct = async (req, res) => {

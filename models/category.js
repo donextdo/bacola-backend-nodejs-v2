@@ -22,6 +22,9 @@ const CategorySchema = new Schema({
       ref: "Category",
     },
   ],
+  isFooterMenu: {
+    type: Boolean,
+  },
 });
 const Category = mongoose.model("Category", CategorySchema);
 module.exports = Category;

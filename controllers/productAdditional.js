@@ -3,7 +3,7 @@ const { request } = require("express");
 const axios = require("axios");
 
 const getproductByfilter = async (req, res) => {
-  const baseUrl = "http://localhost:4000/api";
+  const baseUrl = "http://localhost:3000/api";
 
   try {
     const { sort, page = 1, perpage = 12 } = req.query;
