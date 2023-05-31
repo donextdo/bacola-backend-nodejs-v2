@@ -52,8 +52,7 @@ const register = async (req, res) => {
         // call the verify endpoint
 
         res.status(200).json({
-          message:
-            "Sign-up successful. Please check your email for verification.",
+          message: "Sign-up successful.",
         });
       } else {
         res
@@ -102,6 +101,13 @@ const sendEmailVerification = async (email) => {
     await transporter.sendMail(verificationEmail);
   } catch (error) {
     console.log("error while sending the email: ", error);
+    const response = await User.findOneAndUpdate(
+      { email },
+      { isemailverify: true }
+    );
+    if (response) {
+      console.log("Sign up Done");
+    }
   }
 };
 

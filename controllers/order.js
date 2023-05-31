@@ -1,8 +1,10 @@
 const Order = require("../models/order");
 const { request } = require("express");
 const Product = require("../models/product");
+const axios = require("axios");
 
 const createOrder = async (req, res) => {
+  const baseUrl = "http://localhost:3000/api";
   // const orderId = req.body.orderId;
   const userId = req.body.userId;
   const items = req.body.items;
@@ -10,26 +12,69 @@ const createOrder = async (req, res) => {
   const shippingAddress = req.body.shippingAddress;
   const date = req.body.date;
   const totalprice = req.body.totalprice;
-  const status = req.body.status;
+  const status = "Processing";
   const createdAt = new Date();
   const deletedAt = null;
+  const itemsDetails = [];
 
-  const order = new Order({
-    // orderId,
-    userId,
-    items,
-    billingAddress,
-    shippingAddress,
-    date,
-    totalprice,
-    status,
-    createdAt,
-    deletedAt,
-  });
   try {
+    for (const itemId of items) {
+      const response = await axios.get(
+        `${baseUrl}/products/getOne/${itemId.productId}`
+      );
+      console.log("orderquantity: ", itemId.orderquantity);
+
+      const product = response.data;
+      if (product) {
+        const itemDetail = {
+          productId: product._id,
+          productTitle: product.title,
+          productUnitPrice: product.price,
+          productQuentity: itemId.orderquantity,
+          productTotalPrice: product.price * itemId.orderquantity,
+        };
+
+        itemsDetails.push(itemDetail);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send({ message: "Error while fetching product details" });
+  }
+
+  try {
+    const userResponse = await axios.get(`${baseUrl}/users/${userId}`);
+    const user = userResponse.data;
+    console.log("userDetails: ", user);
+    const orderCount = await axios.get(`${baseUrl}/orders/`);
+    const count = orderCount.data.length;
+    console.log("count: ", count);
+    const orderNumber =
+      process.env.ORDERCURRENTBRAND +
+      (parseInt(process.env.ORDERCURRENTAMOUNT) + (count + 1));
+    const order = new Order({
+      // orderId,
+      orderNumber,
+      userId,
+      items,
+      billingAddress,
+      shippingAddress,
+      date,
+      totalprice,
+      status,
+      createdAt,
+      deletedAt,
+      itemsDetails: itemsDetails,
+      useName: user.name,
+      userBillingAddress: user.billingAddress,
+      userShippingAddress: user.shippingAddress,
+    });
+
     let response = await order.save();
     if (response) {
-      return res.status(201).send({ orderId: response._id, message: "Order Successful" });
+      return res.status(201).send({ message: "Order Successful" });
     } else {
       return res.status(500).send({ message: "Internal server error" });
     }
@@ -56,15 +101,13 @@ const getAllOrders = async (req, res) => {
 };
 
 //get order by id
-const  getOrderByOrderId = async (req, res) => {
-
+const getOrderByOrderId = async (req, res) => {
   const orderId = req.params.id;
 
   try {
     let response = await Order.findById(orderId);
 
     if (response) {
-      
       return res.json(response);
     } else {
       return res.status(404).send({ message: "No such order found" });
@@ -84,7 +127,7 @@ const updateOrder = async (req, res) => {
     userId: req.body.userId,
     items: req.body.items,
     billingAddress: req.body.billingAddress,
-    shippingAddress : req.body.shippingAddress,
+    shippingAddress: req.body.shippingAddress,
     date: req.body.date,
     totalprice: req.body.totalprice,
     status: req.body.status,
@@ -214,7 +257,8 @@ const getOrderById = async (req, res) => {
       });
     }
 
-    const orderDetails = { // initialize orderDetails as an object instead of an array
+    const orderDetails = {
+      // initialize orderDetails as an object instead of an array
       orderId: order._id,
       userId: order.userId,
       items: itemDetails,
