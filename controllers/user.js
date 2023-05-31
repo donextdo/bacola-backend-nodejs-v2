@@ -140,7 +140,7 @@ const login = async (req, res) => {
     if (user) {
       if (user.isemailverify == true) {
         if (user && bcrypt.compareSync(password, user.password)) {
-          const token = auth.generateAccessToken(email);
+          const token = auth.generateAccessToken(user._id);
           return res.status(200).send({ ...user.toJSON(), token });
         } else {
           return res.status(400).send({
@@ -160,36 +160,6 @@ const login = async (req, res) => {
   }
 };
 
-// const login = async (req, res) => {
-//   const usernameoremail = req.body.usernameoremail;
-//   const password = req.body.password;
-
-//   try {
-//     const user = await User.findOne({
-//       $or: [{ email: usernameoremail }, { userName: usernameoremail }],
-//     });
-
-//     if (user) {
-//       if (bcrypt.compareSync(password, user.password)) {
-//         const token = auth.generateAccessToken(user.email);
-//         return res.status(200).send({ ...user.toJSON(), token });
-//       } else {
-//         return res.status(400).send({
-//           message: "Incorrect password for the provided email or username",
-//         });
-//       }
-//     } else {
-//       return res.status(404).send({ message: "Invalid email or username" });
-//     }
-//   } catch (err) {
-//     console.error(err);
-//     return res.status(500).send({
-//       message:
-//         "An error occurred while trying to log in. Please try again later.",
-//     });
-//   }
-// };
-
 const getAllUsers = async (req, res) => {
   try {
     let users = await User.find();
@@ -204,7 +174,7 @@ const getAllUsers = async (req, res) => {
 };
 
 const getOneUser = async (req, res) => {
-  const id = req.params.id;
+  const id = req.user.id;
 
   try {
     let user = await User.findOne({

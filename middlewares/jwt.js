@@ -16,8 +16,8 @@ function authenticateToken(req, res, next) {
   });
 }
 
-function generateAccessToken(email) {
-  return jwt.sign({ data: email }, process.env.TOKEN_SECRET, {
+function generateAccessToken(id) {
+  return jwt.sign({ id: id }, process.env.TOKEN_SECRET, {
     expiresIn: "1h",
   });
 }
