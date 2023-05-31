@@ -105,6 +105,14 @@ const ProductSchema = new Schema({
   speacialtag: {
     type: String,
   },
+  isBestSeller: {
+    type: Boolean,
+    default: false,
+  },
+  isNewArrival: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Product = mongoose.model("product", ProductSchema);
