@@ -97,6 +97,22 @@ const getAllProduct = async (req, res) => {
   }
 };
 
+const getAlllProduct = async (req, res) => {
+  try {
+    let products = await Product.find();
+    if (products) {
+      return res.json(products);
+    } else {
+      return res
+        .status(404)
+        .send({ message: "Error occured when retrieving products" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: "Internal server error" });
+  }
+};
+
 const getAllBestSellerProducts = async (req, res) => {
   try {
     let products = await Product.find({ isBestSeller: true });
@@ -435,4 +451,5 @@ module.exports = {
   searchBySocket,
   getAllNewArrivalProducts,
   getAllBestSellerProducts,
+  getAlllProduct,
 };
