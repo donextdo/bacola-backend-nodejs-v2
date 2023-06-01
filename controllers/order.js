@@ -18,6 +18,22 @@ const createOrder = async (req, res) => {
   const itemsDetails = [];
 
   try {
+    const token = req.headers.authorization;
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    // Verify and decode the token
+    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+    const userEmail = decodedToken.data;
+
+    // Find the user based on the email
+     let user = await User.findOne({ email: userEmail });
+
+      if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     for (const itemId of items) {
       const response = await axios.get(
         `${baseUrl}/products/getOne/${itemId.productId}`
