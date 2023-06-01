@@ -4,7 +4,7 @@ const Product = require("../models/product");
 const axios = require("axios");
 
 const createOrder = async (req, res) => {
-  const baseUrl = "http://localhost:3000/api";
+  const baseUrl = process.env.BACKEND_BASE_URL;
   // const orderId = req.body.orderId;
   const userId = req.body.userId;
   const items = req.body.items;
