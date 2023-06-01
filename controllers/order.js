@@ -2,8 +2,13 @@ const Order = require("../models/order");
 const { request } = require("express");
 const Product = require("../models/product");
 const axios = require("axios");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+
+
 
 const createOrder = async (req, res) => {
+  
   const baseUrl = process.env.BACKEND_BASE_URL;
   // const orderId = req.body.orderId;
   const userId = req.body.userId;
@@ -16,6 +21,7 @@ const createOrder = async (req, res) => {
   const createdAt = new Date();
   const deletedAt = null;
   const itemsDetails = [];
+  
 
   try {
     const token = req.headers.authorization;
@@ -33,7 +39,7 @@ const createOrder = async (req, res) => {
       if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    
     for (const itemId of items) {
       const response = await axios.get(
         `${baseUrl}/products/getOne/${itemId.productId}`
@@ -53,8 +59,10 @@ const createOrder = async (req, res) => {
         itemsDetails.push(itemDetail);
       }
     }
+    
   } catch (error) {
     console.error(error);
+    console.log("hi1")
     return res
       .status(500)
       .send({ message: "Error while fetching product details" });
@@ -87,10 +95,10 @@ const createOrder = async (req, res) => {
       userBillingAddress: user.billingAddress,
       userShippingAddress: user.shippingAddress,
     });
-
+    console.log("hi2")
     let response = await order.save();
     if (response) {
-      return res.status(201).send({ message: "Order Successful" });
+      return res.status(201).send({ orderId: response._id, message: "Order Successful" });
     } else {
       return res.status(500).send({ message: "Internal server error" });
     }

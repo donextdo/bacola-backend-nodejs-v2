@@ -66,10 +66,10 @@ const OrderSchema = new Schema({
       shippingPhone: { type: String, required: false, trim: true },
       street: { type: String, required: false },
       apartment: { type: String, required: false },
-      town: { type: String, required: true },
+      town: { type: String, required: false },
       state: { type: String, required: false },
-      country: { type: String, required: true },
-      zipCode: { type: String, required: true },
+      country: { type: String, required: false },
+      zipCode: { type: String, required: false },
       shippingEmail: { type: String, required: false },
     },
 
