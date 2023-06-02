@@ -12,6 +12,8 @@ const jwt = require("jsonwebtoken");
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const rateLimit = require("express-rate-limit");
 const EmailService = require("../utils/EmailService");
+const logger = require('../utils/logger');
+
 
 //register new user
 // const register = async (req, res) => {
@@ -122,6 +124,8 @@ const register = async (req, res) => {
           message: "Sign-up successful. Please check your email for verification.",
         });
       } catch (error) {
+        // Log an error
+        logger.error('An error occurred:', error);
         console.log("Error while sending verification email: ", error);
         console.log("Manual verification required for email:", email);
         await User.findOneAndUpdate({ email }, { isemailverify: true });
@@ -137,6 +141,8 @@ const register = async (req, res) => {
       .status(500)
       .json({ message: "Sign-up failed. Please try again later." });
   } catch (err) {
+    // Log an error
+    logger.error('An error occurred:', error);
     console.error("Error while registering a user:", err);
     return res
       .status(400)
