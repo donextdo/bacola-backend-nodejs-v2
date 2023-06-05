@@ -22,6 +22,8 @@ const createOrder = async (req, res) => {
   const deletedAt = null;
   const itemsDetails = [];
   const address = req.body.address;
+  const payment = req.body.payment;
+
   
   
 
@@ -90,6 +92,7 @@ const createOrder = async (req, res) => {
       date,
       totalprice,
       address,
+      payment,
       status,
       createdAt,
       deletedAt,
@@ -246,7 +249,9 @@ const getOrderByUser = async (req, res) => {
         status: order.status,
         createdAt: order.createdAt,
         deletedAt: order.deletedAt,
-        address: order.address
+        address: order.address,
+        payment: order.payment
+
         
       });
     }
@@ -302,7 +307,8 @@ const getOrderById = async (req, res) => {
       status: order.status,
       createdAt: order.createdAt,
       deletedAt: order.deletedAt,
-      address: order.address
+      address: order.address,
+      payment: order.payment
       
       
     };
