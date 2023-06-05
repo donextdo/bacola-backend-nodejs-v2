@@ -12,6 +12,8 @@ const OrderSchema = new Schema({
 
   address: {},
 
+  payment: {},
+
   userBillingAddress: {},
 
   userShippingAddress: {},
