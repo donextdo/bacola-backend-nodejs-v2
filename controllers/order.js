@@ -21,6 +21,8 @@ const createOrder = async (req, res) => {
   const createdAt = new Date();
   const deletedAt = null;
   const itemsDetails = [];
+  const address = req.body.address;
+  
   
 
   try {
@@ -87,6 +89,7 @@ const createOrder = async (req, res) => {
       shippingAddress,
       date,
       totalprice,
+      address,
       status,
       createdAt,
       deletedAt,
@@ -195,9 +198,10 @@ const getOrderByUser = async (req, res) => {
     const orders = await Order.find({ userId: userId });
 
     const orderDetails = [];
+    
 
     for (let i = 0; i < orders.length; i++) {
-      const order = orders[i];
+     const order = orders[i];
       console.log("order", order);
 
       const productIds = [
@@ -214,11 +218,12 @@ const getOrderByUser = async (req, res) => {
           description: product.description,
           price: product.price,
           front: product.front,
+          
         };
       });
 
       const itemDetails = [];
-
+        
       for (let j = 0; j < order.items.length; j++) {
         const item = order.items[j];
 
@@ -230,6 +235,7 @@ const getOrderByUser = async (req, res) => {
       }
 
       orderDetails.push({
+        orderNumber:order.orderNumber,
         orderId: order._id,
         userId: order.userId,
         items: itemDetails,
@@ -240,6 +246,8 @@ const getOrderByUser = async (req, res) => {
         status: order.status,
         createdAt: order.createdAt,
         deletedAt: order.deletedAt,
+        address: order.address
+        
       });
     }
 
@@ -283,6 +291,7 @@ const getOrderById = async (req, res) => {
 
     const orderDetails = {
       // initialize orderDetails as an object instead of an array
+      orderNumber:order.orderNumber,
       orderId: order._id,
       userId: order.userId,
       items: itemDetails,
@@ -293,6 +302,9 @@ const getOrderById = async (req, res) => {
       status: order.status,
       createdAt: order.createdAt,
       deletedAt: order.deletedAt,
+      address: order.address
+      
+      
     };
 
     res.json(orderDetails);
