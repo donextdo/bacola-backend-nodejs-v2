@@ -10,6 +10,8 @@ const OrderSchema = new Schema({
 
   useName: {},
 
+  address: {},
+
   userBillingAddress: {},
 
   userShippingAddress: {},
