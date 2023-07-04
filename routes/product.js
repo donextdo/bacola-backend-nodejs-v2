@@ -6,6 +6,9 @@ let productController = require("../controllers/product");
 
 router.post("/insert", productController.addProduct);
 router.get("/getAll/", productController.getAllProduct);
+router.get("/getAll", productController.getAlllProduct);
+router.get("/getAllBestSellerProducts", productController.getAllBestSellerProducts);
+router.get("/getAllNewArrivalProducts", productController.getAllNewArrivalProducts);
 router.get("/getOne/:id", productController.getProductById);
 router.put("/:id", productController.updateProduct);
 router.delete("/:id", productController.deleteProduct);

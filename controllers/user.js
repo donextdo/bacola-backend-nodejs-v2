@@ -11,107 +11,219 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const rateLimit = require("express-rate-limit");
+const EmailService = require("../utils/EmailService");
+const logger = require("../utils/logger");
 
 //register new user
+// const register = async (req, res) => {
+//   const userName = req.body.userName;
+//   const email = req.body.email;
+//   const pwd = req.body.password;
+//   const whishList = req.body.whishList;
+//   const firstName = req.body.firstName;
+//   const lastName = req.body.lastName;
+//   const companyName = req.body.companyName;
+//   const billingAddress = req.body.billingAddress;
+//   const shippingAddress = req.body.shippingAddress;
+
+//   const salt = bcrypt.genSaltSync(10);
+//   const password = bcrypt.hashSync(pwd, salt);
+
+//   const user = new User({
+//     userName,
+//     email,
+//     password,
+//     whishList,
+//     firstName,
+//     lastName,
+//     companyName,
+//     billingAddress,
+//     shippingAddress,
+//   });
+
+//   try {
+//     const userExists = await User.findOne({ email });
+//     if (userExists) {
+//       res.status(400).send({ message: "User Already Exists" });
+//     } else {
+//       let response = await user.save();
+
+//       if (response) {
+//         // verify email link send
+//        const emailSent = sendEmailVerification(email);
+//        if (emailSent) {
+//         res.status(200).json({
+//           message: "Sign-up successful.",
+//         });
+//       } else {
+//         // Handle the case where email sending failed
+//         // For example, you can redirect the user to the sign-up page again
+//         // res.redirect('/signup');
+//     res.redirect(process.env.FRONTEND_BASE_URL);
+
+//       }
+//         // call the verify endpoint
+
+//         // res.status(200).json({
+//         //   message: "Sign-up successful.",
+//         // });
+//       } else {
+//         res
+//           .status(500)
+//           .json({ message: "Sign-up failed. Please try again later." });
+//       }
+//     }
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(400).send({ message: "Error while registering a user" });
+//   }
+// };
+
+// Register new user
 const register = async (req, res) => {
-  const userName = req.body.userName;
-  const email = req.body.email;
-  const pwd = req.body.password;
-  const whishList = req.body.whishList;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const companyName = req.body.companyName;
-  const billingAddress = req.body.billingAddress;
-  const shippingAddress = req.body.shippingAddress;
-
-  const salt = bcrypt.genSaltSync(10);
-  const password = bcrypt.hashSync(pwd, salt);
-
-  const user = new User({
-    userName,
-    email,
-    password,
-    whishList,
-    firstName,
-    lastName,
-    companyName,
-    billingAddress,
-    shippingAddress,
-  });
-
   try {
+    const {
+      userName,
+      email,
+      password,
+      whishList,
+      firstName,
+      lastName,
+      companyName,
+      billingAddress,
+      shippingAddress,
+    } = req.body;
+
     const userExists = await User.findOne({ email });
     if (userExists) {
-      res.status(400).send({ message: "User Already Exists" });
-    } else {
-      let response = await user.save();
+      return res.status(400).send({ message: "User already exists" });
+    }
 
-      if (response) {
-        // verify email link send
-        sendEmailVerification(email);
-        // call the verify endpoint
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-        res.status(200).json({
-          message: "Sign-up successful.",
+    const user = new User({
+      userName,
+      email,
+      password: hashedPassword,
+      whishList,
+      firstName,
+      lastName,
+      companyName,
+      billingAddress,
+      shippingAddress,
+    });
+
+    const savedUser = await user.save();
+
+    if (savedUser) {
+      try {
+        await sendEmailVerification(email);
+        return res.status(200).json({
+          message:
+            "Sign-up successful. Please check your email for verification.",
         });
-      } else {
-        res
-          .status(500)
-          .json({ message: "Sign-up failed. Please try again later." });
+      } catch (error) {
+        // Log an error
+        logger.error("An error occurred:", error);
+        console.log("Error while sending verification email: ", error);
+        console.log("Manual verification required for email:", email);
+        await User.findOneAndUpdate({ email }, { isemailverify: true });
+
+        return res.status(200).json({
+          message: "Sign-up successful. Manual email verification required.",
+          instructions:
+            "Please check your email for verification instructions or contact support for assistance.",
+        });
       }
     }
+
+    return res
+      .status(500)
+      .json({ message: "Sign-up failed. Please try again later." });
   } catch (err) {
-    console.log(err);
+    // Log an error
+    logger.error("An error occurred:", error);
+    console.error("Error while registering a user:", err);
     return res.status(400).send({ message: "Error while registering a user" });
   }
 };
 
-//send email for the verification
 const sendEmailVerification = async (email) => {
   const token = jwt.sign({ email }, process.env.SECRET_KEY, {
     expiresIn: "1h",
   });
-  console.log("process.env.SECRET_KEY : ", process.env.SECRET_KEY);
-
-  // const token = "token";
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
   const frontendBaseURL = process.env.FRONTEND_BASE_URL;
-  console.log("verify the email: ", email);
+
   const verificationEmail = {
     from: process.env.EMAIL_FROM,
     to: email,
     subject: "Email Verification",
     html: `
-    <p>Please click the following link to verify your email:</p>
-    <a href="http://localhost:3000/api/users/verify/${token}">Verify Email</a>
+      <p>Please click the following link to verify your email:</p>
+      <a href="${frontendBaseURL}/api/users/verify/${token}">Verify Email</a>
     `,
   };
-  console.log(`http://localhost:3000/api/users/verify/${token}`);
-  console.log("verify the email: ", verificationEmail);
+
   try {
-    await transporter.sendMail(verificationEmail);
-  } catch (error) {
-    console.log("error while sending the email: ", error);
-    const response = await User.findOneAndUpdate(
-      { email },
-      { isemailverify: true }
+    await EmailService.sendEmail(
+      email,
+      verificationEmail.subject,
+      verificationEmail.html
     );
-    if (response) {
-      console.log("Sign up Done");
-    }
+  } catch (error) {
+    console.log("Error while sending the email: ", error);
+    throw new Error("Failed to send email");
   }
 };
+
+//send email for the verification
+// const sendEmailVerification = async (email) => {
+//   const token = jwt.sign({ email }, process.env.SECRET_KEY, {
+//     expiresIn: "1h",
+//   });
+//   // const token = "token";
+//   const transporter = nodemailer.createTransport({
+//     host: process.env.EMAIL_HOST,
+//     port: process.env.EMAIL_PORT,
+//     secure: false,
+//     auth: {
+//       user: process.env.EMAIL_USERNAME,
+//       pass: process.env.EMAIL_PASSWORD,
+//     },
+//     tls: {
+//       rejectUnauthorized: false,
+//     },
+//   });
+//   const frontendBaseURL = process.env.FRONTEND_BASE_URL;
+//   console.log("verify the email: ", email);
+//   const verificationEmail = {
+//     from: process.env.EMAIL_FROM,
+//     to: email,
+//     subject: "Email Verification",
+//     html: `
+//     <p>Please click the following link to verify your email:</p>
+//     <a href="http://localhost:3000/api/users/verify/${token}">Verify Email</a>
+//     `,
+//   };
+//   console.log(`http://localhost:3000/api/users/verify/${token}`);
+//   console.log("verify the email: ", verificationEmail);
+//   try {
+//     await transporter.sendMail(verificationEmail);
+//     return true;
+//   } catch (error) {
+//     console.log("error while sending the email: ", error);
+//     const response = await User.findOneAndUpdate(
+//       { email },
+//       { isemailverify: true }
+//     );
+//     if (response) {
+
+//       console.log("Sign up Done");
+//     }
+//     return false
+//   }
+// };
 
 //verify tocken and update user verify status
 const VerifyEmailByUser = async (req, res) => {
@@ -307,9 +419,51 @@ const getOneUserByEmail = async (req, res) => {
   }
 };
 
+// const addWishList = async (req, res) => {
+//   try {
+//     const user = await User.findById(req.params.id);
+//     console.log("user", user);
+//     const products = req.body.whishList;
+
+//     const productList = products.map((p) => ({
+//       productId: p.productId,
+//       date: p.date,
+//       front: p.front,
+//       title: p.title,
+//       price: p.price,
+//       quantity: p.quantity,
+//     }));
+
+//     user.whishList.push(...productList);
+
+//     await user.save();
+
+//     res.status(200).json({ message: "Products added to wishlist" });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
 const addWishList = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const token = req.headers.authorization;
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    // Verify and decode the token
+    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+    const userEmail = decodedToken.data;
+
+    // Find the user based on the email
+    let user = await User.findOne({ email: userEmail });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user = await User.findById(req.params.id);
     console.log("user", user);
     const products = req.body.whishList;
 
@@ -329,6 +483,11 @@ const addWishList = async (req, res) => {
     res.status(200).json({ message: "Products added to wishlist" });
   } catch (err) {
     console.error(err);
+    if (err.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
+    } else {
+      console.log("error is $err", err);
+    }
     res.status(500).json({ message: "Server error" });
   }
 };

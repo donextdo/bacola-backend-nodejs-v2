@@ -2,9 +2,14 @@ const Order = require("../models/order");
 const { request } = require("express");
 const Product = require("../models/product");
 const axios = require("axios");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+
+
 
 const createOrder = async (req, res) => {
-  const baseUrl = "http://localhost:3000/api";
+  
+  const baseUrl = process.env.BACKEND_BASE_URL;
   // const orderId = req.body.orderId;
   const userId = req.body.userId;
   const items = req.body.items;
@@ -16,8 +21,29 @@ const createOrder = async (req, res) => {
   const createdAt = new Date();
   const deletedAt = null;
   const itemsDetails = [];
+  const address = req.body.address;
+  const payment = req.body.payment;
+
+  
+  
 
   try {
+    const token = req.headers.authorization;
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    // Verify and decode the token
+    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+    const userEmail = decodedToken.data;
+
+    // Find the user based on the email
+     let user = await User.findOne({ email: userEmail });
+
+      if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
     for (const itemId of items) {
       const response = await axios.get(
         `${baseUrl}/products/getOne/${itemId.productId}`
@@ -37,8 +63,10 @@ const createOrder = async (req, res) => {
         itemsDetails.push(itemDetail);
       }
     }
+    
   } catch (error) {
     console.error(error);
+    console.log("hi1")
     return res
       .status(500)
       .send({ message: "Error while fetching product details" });
@@ -64,6 +92,8 @@ const createOrder = async (req, res) => {
       shippingAddress,
       date,
       totalprice,
+      address,
+      payment,
       status,
       createdAt,
       deletedAt,
@@ -72,10 +102,10 @@ const createOrder = async (req, res) => {
       userBillingAddress: user.billingAddress,
       userShippingAddress: user.shippingAddress,
     });
-
+    console.log("hi2")
     let response = await order.save();
     if (response) {
-      return res.status(201).send({ message: "Order Successful" });
+      return res.status(201).send({ orderId: response._id, message: "Order Successful" });
     } else {
       return res.status(500).send({ message: "Internal server error" });
     }
@@ -172,9 +202,10 @@ const getOrderByUser = async (req, res) => {
     const orders = await Order.find({ userId: userId });
 
     const orderDetails = [];
+    
 
     for (let i = 0; i < orders.length; i++) {
-      const order = orders[i];
+     const order = orders[i];
       console.log("order", order);
 
       const productIds = [
@@ -191,11 +222,12 @@ const getOrderByUser = async (req, res) => {
           description: product.description,
           price: product.price,
           front: product.front,
+          
         };
       });
 
       const itemDetails = [];
-
+        
       for (let j = 0; j < order.items.length; j++) {
         const item = order.items[j];
 
@@ -207,6 +239,7 @@ const getOrderByUser = async (req, res) => {
       }
 
       orderDetails.push({
+        orderNumber:order.orderNumber,
         orderId: order._id,
         userId: order.userId,
         items: itemDetails,
@@ -217,6 +250,10 @@ const getOrderByUser = async (req, res) => {
         status: order.status,
         createdAt: order.createdAt,
         deletedAt: order.deletedAt,
+        address: order.address,
+        payment: order.payment
+
+        
       });
     }
 
@@ -260,6 +297,7 @@ const getOrderById = async (req, res) => {
 
     const orderDetails = {
       // initialize orderDetails as an object instead of an array
+      orderNumber:order.orderNumber,
       orderId: order._id,
       userId: order.userId,
       items: itemDetails,
@@ -270,6 +308,10 @@ const getOrderById = async (req, res) => {
       status: order.status,
       createdAt: order.createdAt,
       deletedAt: order.deletedAt,
+      address: order.address,
+      payment: order.payment
+      
+      
     };
 
     res.json(orderDetails);

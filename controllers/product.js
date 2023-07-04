@@ -29,6 +29,8 @@ const addProduct = async (req, res) => {
   const tags = req.body.tags;
   const life = req.body.life;
   const speacialtag = req.body.speacialtag;
+  const isNewArrival = req.body.isNewArrival;
+  const isBestSeller = req.body.isBestSeller;
   const createdAt = new Date();
   const updatedAt = null;
   const deletedAt = null;
@@ -61,6 +63,8 @@ const addProduct = async (req, res) => {
     life,
     tags,
     speacialtag,
+    isNewArrival,
+    isBestSeller
     // isFavourite,
   });
   try {
@@ -93,6 +97,53 @@ const getAllProduct = async (req, res) => {
   }
 };
 
+const getAlllProduct = async (req, res) => {
+  try {
+    let products = await Product.find();
+    if (products) {
+      return res.json(products);
+    } else {
+      return res
+        .status(404)
+        .send({ message: "Error occured when retrieving products" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: "Internal server error" });
+  }
+};
+
+const getAllBestSellerProducts = async (req, res) => {
+  try {
+    let products = await Product.find({ isBestSeller: true });
+    if (products) {
+      return res.json(products);
+    } else {
+      return res
+        .status(404)
+        .send({ message: "Error occured when retrieving products" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: "Internal server error" });
+  }
+};
+
+const getAllNewArrivalProducts = async (req, res) => {
+  try {
+    let products = await Product.find({ isNewArrival: true });
+    if (products) {
+      return res.json(products);
+    } else {
+      return res
+        .status(404)
+        .send({ message: "Error occured when retrieving products" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ message: "Internal server error" });
+  }
+};
 //get product by id
 const getProductById = async (req, res) => {
   const productId = req.params.id;
@@ -242,6 +293,7 @@ const searchBySocket = async (req, res) => {
   // Send the search query to the server
   socket.emit("search", query);
 };
+
 
 const getCategories = async (req, res) => {
   try {
@@ -397,4 +449,7 @@ module.exports = {
   getBrandsName,
   pagePagination,
   searchBySocket,
+  getAllNewArrivalProducts,
+  getAllBestSellerProducts,
+  getAlllProduct,
 };

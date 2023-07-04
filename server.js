@@ -68,6 +68,9 @@ app.use("/api/categories", category);
 let coupon = require("./routes/coupon");
 app.use("/api/coupons", coupon);
 
+let subscribe = require("./routes/subscribe");
+app.use("/api/subscribe", subscribe);
+
 let location = require("./routes/location");
 const Product = require("./models/product");
 app.use("/api/locations", location);
