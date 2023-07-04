@@ -46,6 +46,7 @@ const createOrder = async (req, res) => {
 
   try {
     const userResponse = await axios.get(`${baseUrl}/users/${userId}`);
+    console.log("dddddddddddddddddd: ", userResponse);
     const user = userResponse.data;
     console.log("userDetails: ", user);
     const orderCount = await axios.get(`${baseUrl}/orders/`);

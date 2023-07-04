@@ -71,6 +71,8 @@ const sendEmailVerification = async (email) => {
   const token = jwt.sign({ email }, process.env.SECRET_KEY, {
     expiresIn: "1h",
   });
+  console.log("process.env.SECRET_KEY : ", process.env.SECRET_KEY);
+
   // const token = "token";
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
@@ -174,7 +176,7 @@ const getAllUsers = async (req, res) => {
 };
 
 const getOneUser = async (req, res) => {
-  const id = req.user.id;
+  const id = req.params.id;
 
   try {
     let user = await User.findOne({

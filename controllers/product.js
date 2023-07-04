@@ -226,7 +226,7 @@ const searchBySocket = async (req, res) => {
   const { query } = req.body;
 
   // Create a Socket.io client
-  const socket = socketIOClient("http://localhost:3000");
+  const socket = socketIOClient("http://localhost:4000");
 
   // Socket.io event listener for search results
   socket.on("searchResults", (results) => {
