@@ -9,6 +9,11 @@ router.post("/place", authenticateToken, orderController.createOrder);
 router.get("/", authenticateToken, orderController.getAllOrders);
 router.get("/:id", authenticateToken, orderController.getOrderById);
 router.put("/:id", authenticateToken, orderController.updateOrder);
+router.put(
+  "/change/status/:id",
+  authenticateToken,
+  orderController.updateStatus
+);
 router.delete("/:id", authenticateToken, orderController.deleteOrder);
 router.get("/get/:userId", authenticateToken, orderController.getOrderByUser);
 
