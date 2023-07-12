@@ -38,7 +38,7 @@ function isTokenExpired(token) {
 
 function generateAccessToken(id) {
   return jwt.sign({ id: id }, process.env.TOKEN_SECRET, {
-    expiresIn: "2m",
+    expiresIn: "1h",
   });
 }
 
