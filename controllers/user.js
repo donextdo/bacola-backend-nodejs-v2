@@ -186,6 +186,28 @@ const getOneUser = async (req, res) => {
   }
 };
 
+const getVerifyEmail = async (req, res) => {
+  // const id = req.params.id;
+  //  try {
+  //   console.log("hi")
+  //     const { token } = req.query;
+  //     // Verify the token
+  //     jwt.verify(token, 'YOUR_SECRET_KEY', async (err, decoded) => {
+  //       if (err) {
+  //         console.log(err);
+  //         return res.status(400).json({ error: 'Invalid or expired token.' });
+  //       }
+  //       const { email } = decoded;
+  //       // Update the user's email verification status in the database (e.g., MongoDB)
+  //       // Set the emailVerified field to true for the user with the given email
+  //       // Respond with a success message
+  //       return res.status(200).send({ message: 'Email verification successful.' });
+  //     });
+  //   } catch (err) {
+  //     return res.status(500).send({ message: "An error occurred during email verification" });
+  //   }
+};
+
 const updateUserPassword = async (req, res) => {
   const id = req.params.id;
   const password = req.params.pwd;
@@ -279,6 +301,32 @@ const getOneUserByEmail = async (req, res) => {
   }
 };
 
+// const addWishList = async (req, res) => {
+//   try {
+//     const user = await User.findById(req.params.id);
+//     console.log("user", user);
+//     const products = req.body.whishList;
+
+//     const productList = products.map((p) => ({
+//       productId: p.productId,
+//       date: p.date,
+//       front: p.front,
+//       title: p.title,
+//       price: p.price,
+//       quantity: p.quantity,
+//     }));
+
+//     user.whishList.push(...productList);
+
+//     await user.save();
+
+//     res.status(200).json({ message: "Products added to wishlist" });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
 const addWishList = async (req, res) => {
   try {
     const token = req.headers.authorization;
@@ -298,6 +346,7 @@ const addWishList = async (req, res) => {
     }
 
     user = await User.findById(req.params.id);
+    console.log("user", user);
     const products = req.body.whishList;
 
     const productList = products.map((p) => ({
@@ -315,9 +364,11 @@ const addWishList = async (req, res) => {
 
     res.status(200).json({ message: "Products added to wishlist" });
   } catch (err) {
+    console.error(err);
     if (err.name === "TokenExpiredError") {
       return res.status(401).json({ message: "Token expired" });
     } else {
+      console.log("error is $err", err);
     }
     res.status(500).json({ message: "Server error" });
   }
@@ -336,6 +387,7 @@ const deleteFromWishList = async (req, res) => {
 
     res.status(200).json({ message: "Product removed from wishlist" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
