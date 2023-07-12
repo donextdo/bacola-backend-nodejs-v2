@@ -44,7 +44,6 @@ export const AuthenticatedUserMiddleware = async (req, res, next) => {
     ) {
       next();
     } else {
-      console.log("hello");
       return res.status(403).send("You are not allowed");
     }
   });

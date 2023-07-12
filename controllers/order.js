@@ -42,7 +42,6 @@ const createOrder = async (req, res) => {
       const response = await axios.get(
         `${baseUrl}/products/getOne/${itemId.productId}`
       );
-      console.log("orderquantity: ", itemId.orderquantity);
 
       const product = response.data;
       if (product) {
@@ -58,8 +57,6 @@ const createOrder = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error(error);
-    console.log("hi1");
     return res
       .status(500)
       .send({ message: "Error while fetching product details" });
@@ -67,12 +64,9 @@ const createOrder = async (req, res) => {
 
   try {
     const userResponse = await axios.get(`${baseUrl}/users/${userId}`);
-    console.log("dddddddddddddddddd: ", userResponse);
     const user = userResponse.data;
-    console.log("userDetails: ", user);
     const orderCount = await axios.get(`${baseUrl}/orders/`);
     const count = orderCount.data.length;
-    console.log("count: ", count);
     const orderNumber =
       process.env.ORDERCURRENTBRAND +
       (parseInt(process.env.ORDERCURRENTAMOUNT) + (count + 1));
@@ -95,7 +89,6 @@ const createOrder = async (req, res) => {
       userBillingAddress: user.billingAddress,
       userShippingAddress: user.shippingAddress,
     });
-    console.log("hi2");
     let response = await order.save();
     if (response) {
       return res
@@ -105,7 +98,6 @@ const createOrder = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log(err);
     return res.status(400).send({ message: "Error while placing Order" });
   }
 };
@@ -206,14 +198,12 @@ const deleteOrder = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log(err.message);
     return res.status(400).send({ message: "Could not delete the request" });
   }
 };
 
 const getOrderByUser = async (req, res) => {
   const userId = req.params.userId;
-  console.log("user Id", userId);
   try {
     const orders = await Order.find({ userId: userId });
 
@@ -221,7 +211,6 @@ const getOrderByUser = async (req, res) => {
 
     for (let i = 0; i < orders.length; i++) {
       const order = orders[i];
-      console.log("order", order);
 
       const productIds = [
         ...new Set(order.items.map((item) => item.productId)),
@@ -271,7 +260,6 @@ const getOrderByUser = async (req, res) => {
 
     res.json(orderDetails);
   } catch (error) {
-    console.error(error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -325,7 +313,6 @@ const getOrderById = async (req, res) => {
 
     res.json(orderDetails);
   } catch (error) {
-    console.error(error);
     res.status(500).send("Internal Server Error");
   }
 };

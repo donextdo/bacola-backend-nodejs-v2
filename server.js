@@ -21,24 +21,6 @@ mongoose.connect(URL, {
   useUnifiedTopology: true,
 });
 
-// function authenticateUnlessRegisterOrLogin(req, res, next) {
-//   if (req.path === "/api/users/register" && req.method === "POST") {
-//     return next();
-//   }
-
-//   if (req.path === "/api/users/login" && req.method === "POST") {
-//     return next();
-//   }
-
-//   return auth.authenticateToken(req, res, next);
-// }
-
-// app.use(authenticateUnlessRegisterOrLogin);
-
-// app.listen(port, () => {
-//   console.log(`Server Is Running on Port: ${port}`);
-// });
-
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("Mongodb Connection success!");
@@ -84,18 +66,14 @@ async function searchProducts(query) {
       "http://localhost:3000/api/products/getAll/"
     );
     const products = response.data;
-    //console.log("response , ", response);
     if (!products) {
-      console.error("Products not found in API response.");
       return [];
     }
     const filteredProducts = products.filter((product) =>
       product.title.toLowerCase().includes(query.toLowerCase())
     );
-    console.log(filteredProducts);
     return filteredProducts;
   } catch (error) {
-    console.error("Failed to fetch products:", error);
     return [];
   }
 }
@@ -104,8 +82,6 @@ io.on("connection", (socket) => {
 
   // Socket.io event listener for search requests
   socket.on("search", async (query) => {
-    console.log(`Received search query: ${query}`);
-
     const results = await searchProducts(query);
 
     // Send the search results back to the client

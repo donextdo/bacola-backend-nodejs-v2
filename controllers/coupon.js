@@ -22,7 +22,6 @@ const addCoupon = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log(err);
     return res.status(400).send({ message: "Error while saving coupen" });
   }
 };
@@ -44,11 +43,10 @@ const getAllCoupen = async (req, res) => {
 
 const getCouponById = async (req, res) => {
   const coupon_code = req.params.coupon_code;
-  //console.log("data", coupenId);
 
   try {
     let response = await Coupon.findOne({ coupon_code: coupon_code });
-    // console.log("response", response);
+
     if (response) {
       return res.json(response);
     } else {
@@ -79,7 +77,6 @@ const updateCoupen = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log("errror", err);
     return res.status(400).send({ message: "Unable to update" });
   }
 };
@@ -96,7 +93,6 @@ const deleteCoupen = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log(err.message);
     return res.status(400).send({ message: "Could not delete the request" });
   }
 };

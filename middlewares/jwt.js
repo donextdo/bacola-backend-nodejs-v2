@@ -5,7 +5,6 @@ dotenv.config();
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
-  console.log("authHeader : ", authHeader);
   const token = authHeader && authHeader.split(" ")[1];
 
   if (token == null) {
@@ -13,7 +12,6 @@ function authenticateToken(req, res, next) {
   }
   if (token != null) {
     if (isTokenExpired(token)) {
-      console.log("Token is expired.");
       return res.sendStatus(401);
     }
   }
