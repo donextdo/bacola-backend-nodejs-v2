@@ -7,7 +7,7 @@ let productAdditionalController = require("../controllers/productAdditional");
 
 router.get(
   "/",
-  authenticateToken,
+
   productAdditionalController.getproductByfilter
 );
 router.get("/brand/", productAdditionalController.BrandsName);

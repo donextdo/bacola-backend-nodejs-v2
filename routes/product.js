@@ -38,6 +38,6 @@ router.get(
 
   productController.getBrandsName
 );
-router.get("/", authenticateToken, productController.pagePagination);
+router.get("/", productController.pagePagination);
 
 module.exports = router;
