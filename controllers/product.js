@@ -161,6 +161,26 @@ const getProductById = async (req, res) => {
   }
 };
 
+const getProductByIds = async (req, res) => {
+  try {
+    console.log(req.body.items )
+    const Product = await Product.find({
+      _id: { $in: req.body.items },
+    }).populate("shop_id");
+    if (!Product) {
+      return res.status(404).json({
+        message: `No catelog Book Page Item associate with ${req.params.is}`,
+      });
+    }
+
+    res.status(200).json(Product);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "Internal Server error" });
+  }
+};
+
+
 //update product by id
 const updateProduct = async (req, res) => {
   const Id = req.params.id;
@@ -441,6 +461,7 @@ module.exports = {
   addProduct,
   getAllProduct,
   getProductById,
+  getProductByIds,
   updateProduct,
   deleteProduct,
   deleteUpdate,
