@@ -94,7 +94,7 @@ const sendEmailVerification = async (email) => {
     subject: "Email Verification",
     html: `
       <p>Please click the following link to verify your email:</p>
-      <a href="${frontendBaseURL}/api/users/verify/${token}">Verify Email</a>
+      <a href="${frontendBaseURL}/users/verify/${token}">Verify Email</a>
     `,
   };
 
@@ -208,44 +208,75 @@ const getVerifyEmail = async (req, res) => {
   //   }
 };
 
-const updateUserPassword = async (req, res) => {
-  const id = req.params.id;
-  const password = req.params.pwd;
-
+const forgotPasswordController = async (req, res) => {
   try {
-    const user = await User.findOne({ id });
-    if (user) {
-      const salt = bcrypt.genSaltSync(10);
-      const updatePassword = bcrypt.hashSync(password, salt);
+    const { email } = req.body;
 
-      const newUser = {
-        userName: user.userName,
-        email: user.email,
-        password: updatePassword,
-        whishList: user.whishList,
+    let user = await User.findOne({
+      email: email,
+    });
+    if (email) {
+      const token = auth.generateAccessToken(user._id);
+
+      const frontendBaseURL = `http://localhost:3003/changepassword?token=${token}`;
+
+      const verificationEmail = {
+        from: process.env.EMAIL_FROM,
+        to: email,
+        subject: "Reset Password",
+        html: `
+        <p>Click the link below to reset your password:</p>
+        <a href="${frontendBaseURL}">Change Password</a>
+      `,
       };
 
+      // Send the email
       try {
-        const response = await User.findOneAndUpdate({ _id: id }, newUser);
-        if (response) {
-          return res
-            .status(200)
-            .send({ message: "Successfully updated Password" });
-        } else {
-          return res.status(500).send({ message: "Internal server error" });
+        const emailSent = await EmailService.sendEmail(
+          email,
+          verificationEmail.subject,
+          verificationEmail.html
+        );
+        if (emailSent) {
+          return res.status(403).send({ message: "Please verify your email" });
         }
-      } catch (err) {
+      } catch (error) {
+        // throw new Error("Failed to send email");
+        return res.status(500).send({ message: "Failed to send email" });
+      }
+    }
+  } catch (error) {
+    return res.status(404).send({ message: "Email is incorrect" });
+  }
+};
+
+const updateUserPassword = async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findById(id);
+    if (user) {
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync(password, salt);
+
+      user.password = hashedPassword;
+
+      try {
+        const updatedUser = await user.save();
         return res
-          .status(400)
-          .send({ message: "Unable to update recheck your email" });
+          .status(200)
+          .send({ message: "Successfully updated password" });
+      } catch (error) {
+        return res.status(500).send({ message: "Internal server error" });
       }
     } else {
       return res
         .status(404)
-        .send({ message: "No such user with entered email" });
+        .send({ message: "No user found with the provided ID" });
     }
-  } catch (err) {
-    return res.status(404).send({ message: "No such user with entered email" });
+  } catch (error) {
+    return res.status(500).send({ message: "Internal server error" });
   }
 };
 
@@ -378,4 +409,5 @@ module.exports = {
   deleteFromWishList,
   VerifyEmailByUser,
   getVerifyEmail,
+  forgotPasswordController,
 };
