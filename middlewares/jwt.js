@@ -7,7 +7,14 @@ function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
-  if (token == null) return res.sendStatus(401);
+  if (token == null) {
+    return res.sendStatus(401);
+  }
+  if (token != null) {
+    if (isTokenExpired(token)) {
+      return res.sendStatus(401);
+    }
+  }
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
@@ -16,8 +23,19 @@ function authenticateToken(req, res, next) {
   });
 }
 
-function generateAccessToken(email) {
-  return jwt.sign({ data: email }, process.env.TOKEN_SECRET, {
+function isTokenExpired(token) {
+  try {
+    const decoded = jwt.decode(token);
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+
+    return decoded.exp < currentTimestamp;
+  } catch (error) {
+    return false;
+  }
+}
+
+function generateAccessToken(id) {
+  return jwt.sign({ id: id }, process.env.TOKEN_SECRET, {
     expiresIn: "1h",
   });
 }

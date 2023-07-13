@@ -1,6 +1,6 @@
 const express = require("express");
 const rateLimit = require("express-rate-limit");
-
+const { authenticateToken } = require("../middlewares/jwt");
 const router = express.Router();
 
 let userController = require("../controllers/user");
@@ -13,14 +13,19 @@ const apiLimiter = rateLimit({
 
 router.post("/register", apiLimiter, userController.register);
 router.post("/login", userController.login);
-router.get("/", userController.getAllUsers);
-router.get("/:id", userController.getOneUser);
+router.post("/forgot-password", userController.forgotPasswordController);
+router.get("/getAll", userController.getAllUsers);
+router.get("/:id", authenticateToken, userController.getOneUser);
 router.get("/verify/:token", userController.VerifyEmailByUser);
 router.get("/verify/:token", userController.getVerifyEmail);
-router.patch("/:id/:pwd", userController.updateUserPassword);
-router.patch("/:id", userController.updateUser);
+router.put("/:id/password", userController.updateUserPassword);
+router.patch("/:id", authenticateToken, userController.updateUser);
 router.get("/getUser/:usernameOrEmail", userController.getOneUserByEmail);
-router.post("/wishList/:id", userController.addWishList);
-router.delete("/:id/wishList/:productId", userController.deleteFromWishList);
+router.post("/wishList/:id", authenticateToken, userController.addWishList);
+router.delete(
+  "/:id/wishList/:productId",
+  authenticateToken,
+  userController.deleteFromWishList
+);
 
 module.exports = router;

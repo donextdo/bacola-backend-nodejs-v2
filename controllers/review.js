@@ -3,8 +3,6 @@ const Review = require("../models/review");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-
-
 const addReview = async (req, res) => {
   const productId = req.body.productId;
   const userId = req.body.userId;
@@ -45,12 +43,12 @@ const addReview = async (req, res) => {
     const userEmail = decodedToken.data;
 
     // Find the user based on the email
-     let user = await User.findOne({ email: userEmail });
+    let user = await User.findOne({ email: userEmail });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    
+
     let response = await review.save();
     if (response) {
       return res.status(201).send({ message: "New Review Inserted" });
@@ -58,7 +56,6 @@ const addReview = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log(err);
     return res.status(400).send({ message: "Error while saving review" });
   }
 };
@@ -119,13 +116,11 @@ const getRating = async (req, res) => {
     });
 
     if (review.length > 0) {
-      //   console.log("Rating:", review[0].rating); // add this line to log the rating
       return res.json(review[0].rating);
     } else {
       return res.status(404).send({ message: "No such review found" });
     }
   } catch (err) {
-    console.error(err); // add this line to log the error
     return res.status(500).send({ message: "Internal Server Error" });
   }
 };
@@ -181,7 +176,6 @@ const deleteReviews = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log(err.message);
     return res.status(400).send({ message: "Could not delete the request" });
   }
 };
