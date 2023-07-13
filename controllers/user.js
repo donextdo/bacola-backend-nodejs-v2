@@ -12,73 +12,7 @@ const jwt = require("jsonwebtoken");
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const rateLimit = require("express-rate-limit");
 const EmailService = require("../utils/EmailService");
-const logger = require('../utils/logger');
-
-
-//register new user
-// const register = async (req, res) => {
-//   const userName = req.body.userName;
-//   const email = req.body.email;
-//   const pwd = req.body.password;
-//   const whishList = req.body.whishList;
-//   const firstName = req.body.firstName;
-//   const lastName = req.body.lastName;
-//   const companyName = req.body.companyName;
-//   const billingAddress = req.body.billingAddress;
-//   const shippingAddress = req.body.shippingAddress;
-
-//   const salt = bcrypt.genSaltSync(10);
-//   const password = bcrypt.hashSync(pwd, salt);
-
-//   const user = new User({
-//     userName,
-//     email,
-//     password,
-//     whishList,
-//     firstName,
-//     lastName,
-//     companyName,
-//     billingAddress,
-//     shippingAddress,
-//   });
-
-//   try {
-//     const userExists = await User.findOne({ email });
-//     if (userExists) {
-//       res.status(400).send({ message: "User Already Exists" });
-//     } else {
-//       let response = await user.save();
-
-//       if (response) {
-//         // verify email link send
-//        const emailSent = sendEmailVerification(email);
-//        if (emailSent) {
-//         res.status(200).json({
-//           message: "Sign-up successful.",
-//         });
-//       } else {
-//         // Handle the case where email sending failed
-//         // For example, you can redirect the user to the sign-up page again
-//         // res.redirect('/signup');
-//     res.redirect(process.env.FRONTEND_BASE_URL);
-
-//       }
-//         // call the verify endpoint
-
-//         // res.status(200).json({
-//         //   message: "Sign-up successful.",
-//         // });
-//       } else {
-//         res
-//           .status(500)
-//           .json({ message: "Sign-up failed. Please try again later." });
-//       }
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).send({ message: "Error while registering a user" });
-//   }
-// };
+const logger = require("../utils/logger");
 
 // Register new user
 const register = async (req, res) => {
@@ -121,18 +55,18 @@ const register = async (req, res) => {
       try {
         await sendEmailVerification(email);
         return res.status(200).json({
-          message: "Sign-up successful. Please check your email for verification.",
+          message:
+            "Sign-up successful. Please check your email for verification.",
         });
       } catch (error) {
         // Log an error
-        logger.error('An error occurred:', error);
-        console.log("Error while sending verification email: ", error);
-        console.log("Manual verification required for email:", email);
+        logger.error("An error occurred:", error);
         await User.findOneAndUpdate({ email }, { isemailverify: true });
 
         return res.status(200).json({
           message: "Sign-up successful. Manual email verification required.",
-          instructions: "Please check your email for verification instructions or contact support for assistance.",
+          instructions:
+            "Please check your email for verification instructions or contact support for assistance.",
         });
       }
     }
@@ -142,20 +76,16 @@ const register = async (req, res) => {
       .json({ message: "Sign-up failed. Please try again later." });
   } catch (err) {
     // Log an error
-    logger.error('An error occurred:', error);
-    console.error("Error while registering a user:", err);
-    return res
-      .status(400)
-      .send({ message: "Error while registering a user" });
+    logger.error("An error occurred:", error);
+
+    return res.status(400).send({ message: "Error while registering a user" });
   }
 };
-
 
 const sendEmailVerification = async (email) => {
   const token = jwt.sign({ email }, process.env.SECRET_KEY, {
     expiresIn: "1h",
   });
-
   const frontendBaseURL = process.env.FRONTEND_BASE_URL;
 
   const verificationEmail = {
@@ -164,74 +94,26 @@ const sendEmailVerification = async (email) => {
     subject: "Email Verification",
     html: `
       <p>Please click the following link to verify your email:</p>
-      <a href="${frontendBaseURL}/api/users/verify/${token}">Verify Email</a>
+      <a href="${frontendBaseURL}/users/verify/${token}">Verify Email</a>
     `,
   };
 
   try {
-    await EmailService.sendEmail(email, verificationEmail.subject, verificationEmail.html);
+    await EmailService.sendEmail(
+      email,
+      verificationEmail.subject,
+      verificationEmail.html
+    );
   } catch (error) {
-    console.log("Error while sending the email: ", error);
     throw new Error("Failed to send email");
   }
 };
-
-//send email for the verification
-// const sendEmailVerification = async (email) => {
-//   const token = jwt.sign({ email }, process.env.SECRET_KEY, {
-//     expiresIn: "1h",
-//   });
-//   // const token = "token";
-//   const transporter = nodemailer.createTransport({
-//     host: process.env.EMAIL_HOST,
-//     port: process.env.EMAIL_PORT,
-//     secure: false,
-//     auth: {
-//       user: process.env.EMAIL_USERNAME,
-//       pass: process.env.EMAIL_PASSWORD,
-//     },
-//     tls: {
-//       rejectUnauthorized: false,
-//     },
-//   });
-//   const frontendBaseURL = process.env.FRONTEND_BASE_URL;
-//   console.log("verify the email: ", email);
-//   const verificationEmail = {
-//     from: process.env.EMAIL_FROM,
-//     to: email,
-//     subject: "Email Verification",
-//     html: `
-//     <p>Please click the following link to verify your email:</p>
-//     <a href="http://localhost:3000/api/users/verify/${token}">Verify Email</a>
-//     `,
-//   };
-//   console.log(`http://localhost:3000/api/users/verify/${token}`);
-//   console.log("verify the email: ", verificationEmail);
-//   try {
-//     await transporter.sendMail(verificationEmail);
-//     return true;
-//   } catch (error) {
-//     console.log("error while sending the email: ", error);
-//     const response = await User.findOneAndUpdate(
-//       { email },
-//       { isemailverify: true }
-//     );
-//     if (response) {
-     
-      
-   
-//       console.log("Sign up Done");
-//     }
-//     return false
-//   }
-// };
 
 //verify tocken and update user verify status
 const VerifyEmailByUser = async (req, res) => {
   try {
     // Verify the token
     const decodedToken = jwt.verify(req.params.token, process.env.SECRET_KEY);
-    console.log("decodedToken: ", decodedToken);
     // Update the user's verification status in your database
     const { email } = decodedToken;
     await User.findOneAndUpdate({ email }, { isemailverify: true });
@@ -239,7 +121,6 @@ const VerifyEmailByUser = async (req, res) => {
     // Redirect the user to a success page
     res.redirect(process.env.FRONTEND_BASE_URL);
   } catch (error) {
-    console.error("Error during verification:", error);
     res.redirect("/verification/error");
   }
 };
@@ -255,7 +136,7 @@ const login = async (req, res) => {
     if (user) {
       if (user.isemailverify == true) {
         if (user && bcrypt.compareSync(password, user.password)) {
-          const token = auth.generateAccessToken(email);
+          const token = auth.generateAccessToken(user._id);
           return res.status(200).send({ ...user.toJSON(), token });
         } else {
           return res.status(400).send({
@@ -274,36 +155,6 @@ const login = async (req, res) => {
       .send({ message: "Such user does not exist check your credentials" });
   }
 };
-
-// const login = async (req, res) => {
-//   const usernameoremail = req.body.usernameoremail;
-//   const password = req.body.password;
-
-//   try {
-//     const user = await User.findOne({
-//       $or: [{ email: usernameoremail }, { userName: usernameoremail }],
-//     });
-
-//     if (user) {
-//       if (bcrypt.compareSync(password, user.password)) {
-//         const token = auth.generateAccessToken(user.email);
-//         return res.status(200).send({ ...user.toJSON(), token });
-//       } else {
-//         return res.status(400).send({
-//           message: "Incorrect password for the provided email or username",
-//         });
-//       }
-//     } else {
-//       return res.status(404).send({ message: "Invalid email or username" });
-//     }
-//   } catch (err) {
-//     console.error(err);
-//     return res.status(500).send({
-//       message:
-//         "An error occurred while trying to log in. Please try again later.",
-//     });
-//   }
-// };
 
 const getAllUsers = async (req, res) => {
   try {
@@ -357,44 +208,75 @@ const getVerifyEmail = async (req, res) => {
   //   }
 };
 
-const updateUserPassword = async (req, res) => {
-  const id = req.params.id;
-  const password = req.params.pwd;
-
+const forgotPasswordController = async (req, res) => {
   try {
-    const user = await User.findOne({ id });
-    if (user) {
-      const salt = bcrypt.genSaltSync(10);
-      const updatePassword = bcrypt.hashSync(password, salt);
+    const { email } = req.body;
 
-      const newUser = {
-        userName: user.userName,
-        email: user.email,
-        password: updatePassword,
-        whishList: user.whishList,
+    let user = await User.findOne({
+      email: email,
+    });
+    if (email) {
+      const token = auth.generateAccessToken(user._id);
+
+      const frontendBaseURL = `http://localhost:3003/changepassword?token=${token}`;
+
+      const verificationEmail = {
+        from: process.env.EMAIL_FROM,
+        to: email,
+        subject: "Reset Password",
+        html: `
+        <p>Click the link below to reset your password:</p>
+        <a href="${frontendBaseURL}">Change Password</a>
+      `,
       };
 
+      // Send the email
       try {
-        const response = await User.findOneAndUpdate({ _id: id }, newUser);
-        if (response) {
-          return res
-            .status(200)
-            .send({ message: "Successfully updated Password" });
-        } else {
-          return res.status(500).send({ message: "Internal server error" });
+        const emailSent = await EmailService.sendEmail(
+          email,
+          verificationEmail.subject,
+          verificationEmail.html
+        );
+        if (emailSent) {
+          return res.status(403).send({ message: "Please verify your email" });
         }
-      } catch (err) {
+      } catch (error) {
+        // throw new Error("Failed to send email");
+        return res.status(500).send({ message: "Failed to send email" });
+      }
+    }
+  } catch (error) {
+    return res.status(404).send({ message: "Email is incorrect" });
+  }
+};
+
+const updateUserPassword = async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findById(id);
+    if (user) {
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync(password, salt);
+
+      user.password = hashedPassword;
+
+      try {
+        const updatedUser = await user.save();
         return res
-          .status(400)
-          .send({ message: "Unable to update recheck your email" });
+          .status(200)
+          .send({ message: "Successfully updated password" });
+      } catch (error) {
+        return res.status(500).send({ message: "Internal server error" });
       }
     } else {
       return res
         .status(404)
-        .send({ message: "No such user with entered email" });
+        .send({ message: "No user found with the provided ID" });
     }
-  } catch (err) {
-    return res.status(404).send({ message: "No such user with entered email" });
+  } catch (error) {
+    return res.status(500).send({ message: "Internal server error" });
   }
 };
 
@@ -450,35 +332,8 @@ const getOneUserByEmail = async (req, res) => {
   }
 };
 
-// const addWishList = async (req, res) => {
-//   try {
-//     const user = await User.findById(req.params.id);
-//     console.log("user", user);
-//     const products = req.body.whishList;
-
-//     const productList = products.map((p) => ({
-//       productId: p.productId,
-//       date: p.date,
-//       front: p.front,
-//       title: p.title,
-//       price: p.price,
-//       quantity: p.quantity,
-//     }));
-
-//     user.whishList.push(...productList);
-
-//     await user.save();
-
-//     res.status(200).json({ message: "Products added to wishlist" });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
-
 const addWishList = async (req, res) => {
   try {
-
     const token = req.headers.authorization;
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
@@ -489,7 +344,7 @@ const addWishList = async (req, res) => {
     const userEmail = decodedToken.data;
 
     // Find the user based on the email
-     let user = await User.findOne({ email: userEmail });
+    let user = await User.findOne({ email: userEmail });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -517,7 +372,7 @@ const addWishList = async (req, res) => {
     console.error(err);
     if (err.name === "TokenExpiredError") {
       return res.status(401).json({ message: "Token expired" });
-    }else{
+    } else {
       console.log("error is $err", err);
     }
     res.status(500).json({ message: "Server error" });
@@ -554,4 +409,5 @@ module.exports = {
   deleteFromWishList,
   VerifyEmailByUser,
   getVerifyEmail,
+  forgotPasswordController,
 };

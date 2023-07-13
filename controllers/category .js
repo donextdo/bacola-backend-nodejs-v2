@@ -70,7 +70,7 @@ const getParent = async (req, res) => {
     }
     res.json(category);
   } catch (err) {
-    console.error(err);
+  
     res.status(500).json({ message: "Server Error" });
   }
 };
@@ -80,7 +80,7 @@ const getCatergoryName = async (req, res) => {
   try {
     let response = await Category.find({ _id: ID }).select("name");
     if (response) {
-      console.log("name", response);
+      
       return res.json(response);
     }
   } catch (err) {

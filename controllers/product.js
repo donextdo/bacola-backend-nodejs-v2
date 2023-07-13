@@ -64,7 +64,7 @@ const addProduct = async (req, res) => {
     tags,
     speacialtag,
     isNewArrival,
-    isBestSeller
+    isBestSeller,
     // isFavourite,
   });
   try {
@@ -75,7 +75,6 @@ const addProduct = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log(err);
     return res.status(400).send({ message: "Error while saving products" });
   }
 };
@@ -92,7 +91,6 @@ const getAllProduct = async (req, res) => {
         .send({ message: "Error occured when retrieving products" });
     }
   } catch (err) {
-    console.log(err);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -108,7 +106,6 @@ const getAlllProduct = async (req, res) => {
         .send({ message: "Error occured when retrieving products" });
     }
   } catch (err) {
-    console.log(err);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -124,7 +121,6 @@ const getAllBestSellerProducts = async (req, res) => {
         .send({ message: "Error occured when retrieving products" });
     }
   } catch (err) {
-    console.log(err);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -140,7 +136,6 @@ const getAllNewArrivalProducts = async (req, res) => {
         .send({ message: "Error occured when retrieving products" });
     }
   } catch (err) {
-    console.log(err);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -223,7 +218,6 @@ const updateProduct = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log("errror", err);
     return res.status(400).send({ message: "Unable to update" });
   }
 };
@@ -240,7 +234,6 @@ const deleteUpdate = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log(err);
     return res.status(400).send({ message: "Error while saving products" });
   }
 };
@@ -258,7 +251,6 @@ const deleteProduct = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    console.log(err.message);
     return res.status(400).send({ message: "Could not delete the request" });
   }
 };
@@ -277,7 +269,6 @@ async function searchProducts(query) {
     });
     return searchResult;
   } catch (error) {
-    console.error(error);
     throw error;
   }
 }
@@ -288,7 +279,6 @@ const search = async (req, res) => {
     const results = await searchProducts(query);
     res.json(results);
   } catch (error) {
-    console.error(error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -301,7 +291,6 @@ const searchBySocket = async (req, res) => {
 
   // Socket.io event listener for search results
   socket.on("searchResults", (results) => {
-    console.log("Received search results:", results);
 
     // Send the search results back to the client
     res.status(200).json(results);
@@ -314,7 +303,6 @@ const searchBySocket = async (req, res) => {
   socket.emit("search", query);
 };
 
-
 const getCategories = async (req, res) => {
   try {
     const products = await Product.find({ category: req.params.categoryId })
@@ -322,7 +310,6 @@ const getCategories = async (req, res) => {
       .exec();
     res.json(products);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
 };
@@ -341,46 +328,6 @@ const getBrandsName = async (req, res) => {
   }
 };
 
-// const pagePagination = async (req, res) => {
-//   try {
-//     const { sort, page = 1, perpage = 12 } = req.query;
-//     const skip = (page - 1) * perpage;
-//     let products = await Product.find().skip(skip).limit(parseInt(perpage));
-
-//     switch (sort) {
-//       case "popularity":
-//         products = products.sort((a, b) => b.popularity - a.popularity);
-//         break;
-//       case "rating":
-//         products = products.sort((a, b) => b.averageRating - a.averageRating);
-//         break;
-//       case "date":
-//         products = products.sort(
-//           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-//         );
-//         break;
-//       case "price":
-//         products = products.sort((a, b) => a.price - b.price);
-//         break;
-//       case "price-desc":
-//         products = products.sort((a, b) => b.price - a.price);
-//         break;
-//       default:
-//         break;
-//     }
-//     const count = await Product.countDocuments();
-//     const response = {
-//       products,
-//       currentPage: parseInt(page),
-//       totalPages: Math.ceil(count / perpage),
-//       totalItems: count,
-//     };
-//     res.json(response);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
 
 const pagePagination = async (req, res) => {
   try {
@@ -452,7 +399,6 @@ const pagePagination = async (req, res) => {
 
     res.json(response);
   } catch (error) {
-    console.log("error: ", error);
     res.status(500).json({ message: "Server Error" });
   }
 };
