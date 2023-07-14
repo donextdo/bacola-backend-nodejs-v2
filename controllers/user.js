@@ -218,7 +218,7 @@ const forgotPasswordController = async (req, res) => {
     if (email) {
       const token = auth.generateAccessToken(user._id);
 
-      const frontendBaseURL = `http://localhost:3003/changepassword?token=${token}`;
+      const frontendBaseURL = `http://localhost:3001/changepassword?token=${token}`;
 
       const verificationEmail = {
         from: process.env.EMAIL_FROM,
@@ -334,23 +334,7 @@ const getOneUserByEmail = async (req, res) => {
 
 const addWishList = async (req, res) => {
   try {
-    const token = req.headers.authorization;
-    if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    // Verify and decode the token
-    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
-    const userEmail = decodedToken.data;
-
-    // Find the user based on the email
-    let user = await User.findOne({ email: userEmail });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id);
     console.log("user", user);
     const products = req.body.whishList;
 
