@@ -31,6 +31,7 @@ const register = async (req, res) => {
 
     const userExists = await User.findOne({ email });
     if (userExists) {
+      logger.warn("User already exists");
       return res.status(400).send({ message: "User already exists" });
     }
 
@@ -54,6 +55,9 @@ const register = async (req, res) => {
     if (savedUser) {
       try {
         await sendEmailVerification(email);
+        logger.info(
+          '"Sign-up successful. Please check your email for verification."'
+        );
         return res.status(200).json({
           message:
             "Sign-up successful. Please check your email for verification.",
@@ -74,7 +78,7 @@ const register = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Sign-up failed. Please try again later." });
-  } catch (err) {
+  } catch (error) {
     // Log an error
     logger.error("An error occurred:", error);
 
