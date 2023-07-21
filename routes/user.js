@@ -17,7 +17,6 @@ router.post("/forgot-password", userController.forgotPasswordController);
 router.get("/getAll", userController.getAllUsers);
 router.get("/:id", authenticateToken, userController.getOneUser);
 router.get("/verify/:token", userController.VerifyEmailByUser);
-router.get("/verify/:token", userController.getVerifyEmail);
 router.put("/:id/password", userController.updateUserPassword);
 router.patch("/:id", authenticateToken, userController.updateUser);
 router.get("/getUser/:usernameOrEmail", userController.getOneUserByEmail);

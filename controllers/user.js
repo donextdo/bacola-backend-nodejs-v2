@@ -31,6 +31,7 @@ const register = async (req, res) => {
 
     const userExists = await User.findOne({ email });
     if (userExists) {
+      logger.warn("User already exists");
       return res.status(400).send({ message: "User already exists" });
     }
 
@@ -54,6 +55,9 @@ const register = async (req, res) => {
     if (savedUser) {
       try {
         await sendEmailVerification(email);
+        logger.info(
+          '"Sign-up successful. Please check your email for verification."'
+        );
         return res.status(200).json({
           message:
             "Sign-up successful. Please check your email for verification.",
@@ -74,7 +78,7 @@ const register = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Sign-up failed. Please try again later." });
-  } catch (err) {
+  } catch (error) {
     // Log an error
     logger.error("An error occurred:", error);
 
@@ -93,8 +97,75 @@ const sendEmailVerification = async (email) => {
     to: email,
     subject: "Email Verification",
     html: `
-      <p>Please click the following link to verify your email:</p>
-      <a href="${frontendBaseURL}/users/verify/${token}">Verify Email</a>
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Email Verification</title>
+        <style>
+          /* Copy the CSS styles from the original template here */
+          /* ... (existing CSS styles) ... */
+
+          /* Add the CSS styles for the new HTML */
+          body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            background-color: #fff;
+          }
+          .container {
+            width: 90%;
+            margin: 0 auto;
+            background-color: #f1f1f1;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+          }
+          h1 {
+            color: #3A1C61;
+            font-size: 1.5rem;
+          }
+          p {
+            color: #333;
+            font-size: 1rem;
+            letter-spacing: .6px;
+            font-weight: 500;
+          }
+          a {
+            width: max-content;
+            background-color: #007bff;
+            border: none;
+            color: #fff !important;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            display: block;
+            cursor: pointer;
+            text-decoration: none;
+          }
+          a:hover {
+            background-color: #0056b3;
+          }
+          /* Add any additional CSS styles if required for the new HTML */
+        </style>
+      </head>
+      <body>
+        <div class="container">
+        <h1>Verify Your Account with Bacola</h1>
+          <p>If you did not register for Bacola, please ignore this email.</p>
+
+          <p>Please click the following link to verify your email:</p>
+          <a href="${frontendBaseURL}/successpage?token=${token}">Verify Email</a>
+          
+          <p>Thank you for choosing Bacola. We look forward to serving you!</p> 
+
+          <p>Best regards,</p> 
+<p>The Bacola Team</p>
+        </div>
+      </body>
+    </html>
+      
     `,
   };
 
@@ -112,6 +183,7 @@ const sendEmailVerification = async (email) => {
 //verify tocken and update user verify status
 const VerifyEmailByUser = async (req, res) => {
   try {
+    console.log("token : ", req.params.token);
     // Verify the token
     const decodedToken = jwt.verify(req.params.token, process.env.SECRET_KEY);
     // Update the user's verification status in your database
@@ -225,8 +297,74 @@ const forgotPasswordController = async (req, res) => {
         to: email,
         subject: "Reset Password",
         html: `
-        <p>Click the link below to reset your password:</p>
-        <a href="${frontendBaseURL}">Change Password</a>
+
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Email Verification</title>
+            <style>
+              /* Copy the CSS styles from the original template here */
+              /* ... (existing CSS styles) ... */
+    
+              /* Add the CSS styles for the new HTML */
+              body {
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 1.5;
+                background-color: #fff;
+              }
+              .container {
+                width: 90%;
+                margin: 0 auto;
+                background-color: #f1f1f1;
+                padding: 20px 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+              }
+              h1 {
+                color: #3A1C61;
+                font-size: 1.5rem;
+              }
+              p {
+                color: #333;
+                font-size: 1rem;
+                letter-spacing: .6px;
+                font-weight: 500;
+              }
+              a {
+                width: max-content;
+                background-color: #007bff;
+                border: none;
+                color: #fff !important;
+                padding: 10px 20px;
+                border-radius: 5px;
+                font-size: 16px;
+                display: block;
+                cursor: pointer;
+                text-decoration: none;
+              }
+              a:hover {
+                background-color: #0056b3;
+              }
+              /* Add any additional CSS styles if required for the new HTML */
+            </style>
+          </head>
+          <body>
+            <div class="container">
+            <h1>Reset your Bacola Account Password</h1>
+            <p>If you did not register for Bacola, please ignore this email.</p>
+    
+              <p>Please click the following link to verify your email:</p>
+              <a href="${frontendBaseURL}">Change Password</a>              
+              <p>Thank you for choosing Bacola. We look forward to serving you!</p> 
+    
+              <p>Best regards,</p> 
+    <p>The Bacola Team</p>
+            </div>
+          </body>
+        </html>
+        
       `,
       };
 

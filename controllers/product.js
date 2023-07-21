@@ -291,7 +291,6 @@ const searchBySocket = async (req, res) => {
 
   // Socket.io event listener for search results
   socket.on("searchResults", (results) => {
-
     // Send the search results back to the client
     res.status(200).json(results);
 
@@ -327,7 +326,6 @@ const getBrandsName = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 
 const pagePagination = async (req, res) => {
   try {
