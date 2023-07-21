@@ -4,6 +4,7 @@ const Product = require("../models/product");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const { logger } = require("express-winston");
 
 const createOrder = async (req, res) => {
   const baseUrl = process.env.BACKEND_BASE_URL;
@@ -41,6 +42,7 @@ const createOrder = async (req, res) => {
       }
     }
   } catch (error) {
+    logger.error("An error occurred: ", error);
     return res
       .status(500)
       .send({ message: "Error while fetching product details" });
@@ -75,14 +77,17 @@ const createOrder = async (req, res) => {
     });
     let response = await order.save();
     if (response) {
+      logger.info('"Order Successful."');
       return res
         .status(201)
         .send({ orderId: response._id, message: "Order Successful" });
     } else {
+      logger.error("Internal server error");
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (err) {
-    return res.status(400).send({ message: "Error while placing Order" });
+    logger.error("An error occurred: ", err);
+    return res.status(500).send({ message: "Error while placing Order" });
   }
 };
 
@@ -93,11 +98,13 @@ const getAllOrders = async (req, res) => {
     if (orders) {
       return res.json(orders);
     } else {
+      logger.warn("Error occured when retrieving orders");
       return res
         .status(404)
         .send({ message: "Error occured when retrieving orders" });
     }
   } catch (err) {
+    logger.error("An error occurred:", err);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -167,7 +174,7 @@ const updateStatus = async (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     }
   } catch (error) {
-    return res.status(400).send({ message: "Unable to update order status" });
+    return res.status(500).send({ message: "Unable to update order status" });
   }
 };
 
@@ -297,6 +304,8 @@ const getOrderById = async (req, res) => {
 
     res.json(orderDetails);
   } catch (error) {
+    logger.error("An error occurred:", error);
+
     res.status(500).send("Internal Server Error");
   }
 };

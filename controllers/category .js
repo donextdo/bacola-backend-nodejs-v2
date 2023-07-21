@@ -55,6 +55,7 @@ const getParentCatergoryById = async (req, res) => {
       return res.json(response);
     }
   } catch (err) {
+    console.log("error : ", err);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -70,7 +71,6 @@ const getParent = async (req, res) => {
     }
     res.json(category);
   } catch (err) {
-  
     res.status(500).json({ message: "Server Error" });
   }
 };
@@ -80,7 +80,6 @@ const getCatergoryName = async (req, res) => {
   try {
     let response = await Category.find({ _id: ID }).select("name");
     if (response) {
-      
       return res.json(response);
     }
   } catch (err) {
