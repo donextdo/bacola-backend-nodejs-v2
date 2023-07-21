@@ -15,16 +15,12 @@ router.post("/register", apiLimiter, userController.register);
 router.post("/login", userController.login);
 router.post("/forgot-password", userController.forgotPasswordController);
 router.get("/getAll", userController.getAllUsers);
-router.get("/:id", authenticateToken, userController.getOneUser);
+router.get("/:id", userController.getOneUser);
 router.get("/verify/:token", userController.VerifyEmailByUser);
 router.put("/:id/password", userController.updateUserPassword);
-router.patch("/:id", authenticateToken, userController.updateUser);
+router.patch("/:id", userController.updateUser);
 router.get("/getUser/:usernameOrEmail", userController.getOneUserByEmail);
-router.post("/wishList/:id", authenticateToken, userController.addWishList);
-router.delete(
-  "/:id/wishList/:productId",
-  authenticateToken,
-  userController.deleteFromWishList
-);
+router.post("/wishList/:id", userController.addWishList);
+router.delete("/:id/wishList/:productId", userController.deleteFromWishList);
 
 module.exports = router;

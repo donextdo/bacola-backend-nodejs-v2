@@ -492,11 +492,7 @@ const addWishList = async (req, res) => {
     res.status(200).json({ message: "Products added to wishlist" });
   } catch (err) {
     console.error(err);
-    if (err.name === "TokenExpiredError") {
-      return res.status(401).json({ message: "Token expired" });
-    } else {
-      console.log("error is $err", err);
-    }
+
     res.status(500).json({ message: "Server error" });
   }
 };
