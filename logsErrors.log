@@ -5142,3 +5142,39 @@
     timestamp: '2023-07-20T14:35:02.708Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /api/users/forgot-password',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/users/forgot-password',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'content-length': '32',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'content-type': 'application/json',
+          accept: '*/*',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/api/users/forgot-password',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 34665
+    },
+    timestamp: '2023-07-21T06:32:19.085Z'
+  }
+}
