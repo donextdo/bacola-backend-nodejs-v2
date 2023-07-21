@@ -70709,3 +70709,144 @@
     timestamp: '2023-07-21T06:22:10.911Z'
   }
 }
+{
+  level: 'info',
+  message: 'HTTP GET /api/locations/getAll',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/locations/getAll',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+          'if-none-match': 'W/"422-8iVHeT2KwmC6VH9h1nC1Grj82QY"'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/locations/getAll',
+        query: {}
+      },
+      res: { statusCode: 304 },
+      responseTime: 290
+    },
+    timestamp: '2023-07-21T06:30:32.522Z'
+  }
+}
+{
+  level: 'info',
+  message: 'HTTP GET /api/products',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/products',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YmExZDYxZGMyMmVjM2VkZjE0M2UyYSIsImlhdCI6MTY4OTkxODg3NCwiZXhwIjoxNjg5OTIyNDc0fQ.x2uRMG4xFF74HUSBE_UrxXOHn5lYCsbqGaHTo9Z8zMw',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+          'if-none-match': 'W/"2933-fQfpL2V8771HU0MS+jrygyp32xw"'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/products',
+        query: {}
+      },
+      res: { statusCode: 304 },
+      responseTime: 538
+    },
+    timestamp: '2023-07-21T06:30:32.777Z'
+  }
+}
+{
+  level: 'info',
+  message: 'HTTP GET /api/categories',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+          'if-none-match': 'W/"15c8-KaHyqjLxRS1E5EfEvyWmiNocAjE"'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories',
+        query: {}
+      },
+      res: { statusCode: 304 },
+      responseTime: 579
+    },
+    timestamp: '2023-07-21T06:30:32.812Z'
+  }
+}
+{
+  level: 'info',
+  message: 'HTTP GET /api/categories',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+          'if-none-match': 'W/"15c8-KaHyqjLxRS1E5EfEvyWmiNocAjE"'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories',
+        query: {}
+      },
+      res: { statusCode: 304 },
+      responseTime: 523
+    },
+    timestamp: '2023-07-21T06:30:33.344Z'
+  }
+}
