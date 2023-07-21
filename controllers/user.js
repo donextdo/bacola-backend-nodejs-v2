@@ -98,7 +98,7 @@ const sendEmailVerification = async (email) => {
     subject: "Email Verification",
     html: `
       <p>Please click the following link to verify your email:</p>
-      <a href="${frontendBaseURL}/users/verify/${token}">Verify Email</a>
+      <a href="${frontendBaseURL}/successpage?token=${token}">Verify Email</a>
     `,
   };
 
@@ -116,6 +116,7 @@ const sendEmailVerification = async (email) => {
 //verify tocken and update user verify status
 const VerifyEmailByUser = async (req, res) => {
   try {
+    console.log("token : ", req.params.token);
     // Verify the token
     const decodedToken = jwt.verify(req.params.token, process.env.SECRET_KEY);
     // Update the user's verification status in your database
