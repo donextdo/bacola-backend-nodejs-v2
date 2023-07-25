@@ -292,3 +292,548 @@
     timestamp: '2023-07-21T14:48:56.625Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP GET /api/users/null',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/users/null',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          authorization: 'Bearer null',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/users/null',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-07-25T05:18:18.855Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/[object%20Object]',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/[object%20Object]',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/[object%20Object]',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 18
+    },
+    timestamp: '2023-07-25T07:41:09.665Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/[object%20Object]',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/[object%20Object]',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/[object%20Object]',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 13
+    },
+    timestamp: '2023-07-25T07:42:57.868Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/[object%20Object]',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/[object%20Object]',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/[object%20Object]',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 14
+    },
+    timestamp: '2023-07-25T07:43:06.565Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/[object%20Object]',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/[object%20Object]',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/[object%20Object]',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 13
+    },
+    timestamp: '2023-07-25T07:43:28.253Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/products/getOne/undefined',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/products/getOne/undefined',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/products/getOne/undefined',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 1
+    },
+    timestamp: '2023-07-25T07:44:20.378Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/[object%20Object]',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/[object%20Object]',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/[object%20Object]',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 14
+    },
+    timestamp: '2023-07-25T07:46:30.222Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/[object%20Object]',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/[object%20Object]',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/[object%20Object]',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 14
+    },
+    timestamp: '2023-07-25T07:47:19.670Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/[object%20Object]',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/[object%20Object]',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/[object%20Object]',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 14
+    },
+    timestamp: '2023-07-25T07:47:59.358Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/[object%20Object]',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/[object%20Object]',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/[object%20Object]',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 14
+    },
+    timestamp: '2023-07-25T07:49:23.782Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/users/checkIsFavourite',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/users/checkIsFavourite',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/users/checkIsFavourite',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-07-25T08:01:22.340Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/undefined',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/undefined',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/undefined',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 15
+    },
+    timestamp: '2023-07-25T08:15:49.767Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/undefined',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/undefined',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/undefined',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 11
+    },
+    timestamp: '2023-07-25T08:17:31.491Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/undefined',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/undefined',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/undefined',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 10
+    },
+    timestamp: '2023-07-25T08:25:22.140Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/undefined',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/undefined',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/undefined',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 12
+    },
+    timestamp: '2023-07-25T08:25:30.539Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /api/categories/get/undefined',
+  metadata: {
+    meta: {
+      req: {
+        url: '/api/categories/get/undefined',
+        headers: {
+          host: 'localhost:3000',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          accept: 'application/json, text/plain, */*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          origin: 'http://localhost:3001',
+          'sec-fetch-site': 'same-site',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://localhost:3001/',
+          'accept-encoding': 'gzip, deflate, br',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/api/categories/get/undefined',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 10
+    },
+    timestamp: '2023-07-25T08:29:05.522Z'
+  }
+}

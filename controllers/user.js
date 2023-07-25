@@ -484,12 +484,22 @@ const addWishList = async (req, res) => {
       price: p.price,
       quantity: p.quantity,
     }));
+    const existingProductIds = user.whishList.map((item) => item.productId);
+    const duplicates = productList.filter((p) =>
+      existingProductIds.includes(p.productId)
+    );
 
-    user.whishList.push(...productList);
+    if (duplicates.length > 0) {
+      return res
+        .status(400)
+        .json({ message: "Some products are already in the wishlist" });
+    } else if (duplicates.length == 0) {
+      user.whishList.push(...productList);
 
-    await user.save();
+      await user.save();
 
-    res.status(200).json({ message: "Products added to wishlist" });
+      res.status(200).json({ message: "Products added to wishlist" });
+    }
   } catch (err) {
     console.error(err);
 
@@ -515,6 +525,24 @@ const deleteFromWishList = async (req, res) => {
   }
 };
 
+const checkIsFavourite = async (req, res) => {
+  try {
+    const { userId, productId } = req.body;
+    console.log("userId : ", userId);
+    console.log("productId : ", productId);
+    const user = await User.findById(userId);
+    if (user) {
+      const existingProductIds = user.whishList.map((item) => item.productId);
+      const isFavourite = existingProductIds.includes(productId);
+
+      res.status(200).json({ isFavourite });
+    }
+  } catch (err) {
+    console.error("errrrrrrrrrrrrrrr : ", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -528,4 +556,5 @@ module.exports = {
   VerifyEmailByUser,
   getVerifyEmail,
   forgotPasswordController,
+  checkIsFavourite,
 };
