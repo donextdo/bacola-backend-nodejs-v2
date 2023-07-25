@@ -528,8 +528,7 @@ const deleteFromWishList = async (req, res) => {
 const checkIsFavourite = async (req, res) => {
   try {
     const { userId, productId } = req.body;
-    console.log("userId : ", userId);
-    console.log("productId : ", productId);
+
     const user = await User.findById(userId);
     if (user) {
       const existingProductIds = user.whishList.map((item) => item.productId);
@@ -538,7 +537,24 @@ const checkIsFavourite = async (req, res) => {
       res.status(200).json({ isFavourite });
     }
   } catch (err) {
-    console.error("errrrrrrrrrrrrrrr : ", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const getFavouriteProduct = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+
+    if (user) {
+      // Extract product IDs from the user's wishlist
+      const productIds = user.whishList.map((item) => item.productId);
+
+      res.status(200).json({ productIds });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -557,4 +573,5 @@ module.exports = {
   getVerifyEmail,
   forgotPasswordController,
   checkIsFavourite,
+  getFavouriteProduct,
 };

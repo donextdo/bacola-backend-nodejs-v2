@@ -23,5 +23,6 @@ router.get("/getUser/:usernameOrEmail", userController.getOneUserByEmail);
 router.post("/wishList/:id", userController.addWishList);
 router.delete("/:id/wishList/:productId", userController.deleteFromWishList);
 router.post("/checkIsFavourite", userController.checkIsFavourite);
+router.get("/getProduct/:id", userController.getFavouriteProduct);
 
 module.exports = router;
